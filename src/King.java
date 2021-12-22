@@ -31,28 +31,29 @@ public class King extends ChessPiece {
     }
 
     private boolean isUnderAttackByHorse (ChessBoard cb, int line, int column) {
-            // King("White").isUnderAttack(this, 0, 2)
-        if (line == 0 && column == 2) {
-            return cb.board[1][0].getSymbol().equals(Horse.PIECE_SYMBOL) ||
-                    cb.board[2][1].getSymbol().equals(Horse.PIECE_SYMBOL) ||
-                    cb.board[2][3].getSymbol().equals(Horse.PIECE_SYMBOL) ||
-                    cb.board[1][4].getSymbol().equals(Horse.PIECE_SYMBOL);
-            // King("White").isUnderAttack(this, 0, 6)
-        } else if (line == 0 && column == 6) {
-            return cb.board[1][4].getSymbol().equals(Horse.PIECE_SYMBOL) ||
-                    cb.board[2][5].getSymbol().equals(Horse.PIECE_SYMBOL) ||
-                    cb.board[2][7].getSymbol().equals(Horse.PIECE_SYMBOL);
-            // King("Black").isUnderAttack(this, 7, 2)
-        } else if (line == 7 && column == 2) {
-            return cb.board[6][0].getSymbol().equals(Horse.PIECE_SYMBOL) ||
-                    cb.board[5][1].getSymbol().equals(Horse.PIECE_SYMBOL) ||
-                    cb.board[5][3].getSymbol().equals(Horse.PIECE_SYMBOL) ||
-                    cb.board[6][4].getSymbol().equals(Horse.PIECE_SYMBOL);
-            // King("Black").isUnderAttack(this, 7, 6)
-        } else if (line == 7 && column == 6) {
-            return cb.board[6][4].getSymbol().equals(Horse.PIECE_SYMBOL) ||
-                    cb.board[5][5].getSymbol().equals(Horse.PIECE_SYMBOL) ||
-                    cb.board[5][7].getSymbol().equals(Horse.PIECE_SYMBOL);
+        boolean retVal = false;
+        if (line == 0 && column == 2) {// King("White").isUnderAttack(this, 0, 2)
+            if (cb.board[1][0] != null) retVal = cb.board[1][0].getSymbol().equals(Horse.PIECE_SYMBOL);
+            if (cb.board[2][1] != null) retVal |= cb.board[2][1].getSymbol().equals(Horse.PIECE_SYMBOL);
+            if (cb.board[2][3] != null) retVal |= cb.board[2][3].getSymbol().equals(Horse.PIECE_SYMBOL);
+            if (cb.board[1][4] != null) retVal |= cb.board[1][4].getSymbol().equals(Horse.PIECE_SYMBOL);
+            return retVal;
+        } else if (line == 0 && column == 6) {// King("White").isUnderAttack(this, 0, 6)
+            if (cb.board[1][4] != null) retVal = cb.board[1][4].getSymbol().equals(Horse.PIECE_SYMBOL);
+            if (cb.board[2][5] != null) retVal |= cb.board[2][5].getSymbol().equals(Horse.PIECE_SYMBOL);
+            if (cb.board[2][7] != null) retVal |= cb.board[2][7].getSymbol().equals(Horse.PIECE_SYMBOL);
+            return retVal;
+        } else if (line == 7 && column == 2) {// King("Black").isUnderAttack(this, 7, 2)
+            if (cb.board[6][0] != null) retVal = cb.board[6][0].getSymbol().equals(Horse.PIECE_SYMBOL);
+            if (cb.board[5][1] != null) retVal |= cb.board[5][1].getSymbol().equals(Horse.PIECE_SYMBOL);
+            if (cb.board[5][3] != null) retVal |= cb.board[5][3].getSymbol().equals(Horse.PIECE_SYMBOL);
+            if (cb.board[6][4] != null) retVal |= cb.board[6][4].getSymbol().equals(Horse.PIECE_SYMBOL);
+            return retVal;
+        } else if (line == 7 && column == 6) {// King("Black").isUnderAttack(this, 7, 6)
+            if (cb.board[6][4] != null) retVal = cb.board[6][4].getSymbol().equals(Horse.PIECE_SYMBOL);
+            if (cb.board[5][5] != null) retVal |= cb.board[5][5].getSymbol().equals(Horse.PIECE_SYMBOL);
+            if (cb.board[5][7] != null) retVal |= cb.board[5][7].getSymbol().equals(Horse.PIECE_SYMBOL);
+            return retVal;
         } else {
             return true;
         }
