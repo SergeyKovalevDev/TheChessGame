@@ -74,6 +74,7 @@ public class King extends ChessPiece {
                     }
                 }
             }
+            return false;
         }
         return true;
     }
@@ -94,6 +95,7 @@ public class King extends ChessPiece {
                     }
                 }
             }
+            return false;
         }
         return true;
     }
@@ -114,6 +116,7 @@ public class King extends ChessPiece {
                     }
                 }
             }
+            return false;
         }
         return true;
     }
