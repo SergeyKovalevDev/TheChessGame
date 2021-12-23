@@ -11,12 +11,14 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
+    public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
         boolean check;
-        if (color.equals("White")) {
-            check = (toLine - line) == 1 || ((toLine - line) == 2 && line == 1);
-        } else if (color.equals("Black")){
-            check = (toLine - line) == -1 || ((toLine - line) == -2 && line == 6);
+        if (color.equals(WHITE_PIECE)) {
+            check = (toLine - line) == 1 && cb.board[toLine][toColumn] == null ||
+                    (toLine - line) == 2 && line == 1 && cb.board[toLine - 1][toColumn] == null;
+        } else if (color.equals(BLACK_PIECE)){
+            check = (toLine - line) == -1 && cb.board[toLine][toColumn] == null ||
+                    (toLine - line) == -2 && line == 6 && cb.board[toLine + 1][toColumn] == null;
         } else {
             check = false;
         }

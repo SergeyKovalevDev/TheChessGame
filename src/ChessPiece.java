@@ -1,6 +1,6 @@
 public abstract class ChessPiece {
-    public static final String PIECE_WHITE = "White";
-    public static final String PIECE_BLACK = "Black";
+    public static final String WHITE_PIECE = "White";
+    public static final String BLACK_PIECE = "Black";
 
     public String color;
     public boolean check = true;

@@ -64,7 +64,7 @@ public class King extends ChessPiece {
             for (int i = 1; i <= 7; i ++) {
                 int bcl = line + (line == 0 ? i : -i); // beingCheckedLine
                 if (cb.board[bcl][column] != null) {
-                    if (cb.board[bcl][column].getColor().equals(line == 0 ? ChessPiece.PIECE_WHITE : ChessPiece.PIECE_BLACK)) {
+                    if (cb.board[bcl][column].getColor().equals(line == 0 ? ChessPiece.WHITE_PIECE : ChessPiece.BLACK_PIECE)) {
                         return false;
                     } else {
                         String pieceSymbol = cb.board[bcl][column].getSymbol();
@@ -85,7 +85,7 @@ public class King extends ChessPiece {
                 int bcl = line + (line == 0 ? i : -i); // beingCheckedLine
                 int bcc = column - i; // beingCheckedColumn
                 if (cb.board[bcl][bcc] != null) {
-                    if (cb.board[bcl][bcc].getColor().equals(line == 0 ? ChessPiece.PIECE_WHITE : ChessPiece.PIECE_BLACK)) {
+                    if (cb.board[bcl][bcc].getColor().equals(line == 0 ? ChessPiece.WHITE_PIECE : ChessPiece.BLACK_PIECE)) {
                         return false;
                     } else {
                         String pieceSymbol = cb.board[bcl][bcc].getSymbol();
@@ -106,7 +106,7 @@ public class King extends ChessPiece {
                 int bcl = line + (line == 0 ? i : -i); // beingCheckedLine
                 int bcc = column + i; // beingCheckedColumn
                 if (cb.board[bcl][bcc] != null) {
-                    if (cb.board[bcl][bcc].getColor().equals(line == 0 ? ChessPiece.PIECE_WHITE : ChessPiece.PIECE_BLACK)) {
+                    if (cb.board[bcl][bcc].getColor().equals(line == 0 ? ChessPiece.WHITE_PIECE : ChessPiece.BLACK_PIECE)) {
                         return false;
                     } else {
                         String pieceSymbol = cb.board[bcl][bcc].getSymbol();
