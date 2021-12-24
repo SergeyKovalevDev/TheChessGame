@@ -1,5 +1,5 @@
 public class King extends ChessPiece {
-    public static final String PIECE_SYMBOL = "K";
+    public static final String SYMBOL = "K";
 
     public King(String color) {
         super(color);
@@ -20,7 +20,7 @@ public class King extends ChessPiece {
 
     @Override
     public String getSymbol() {
-        return PIECE_SYMBOL;
+        return SYMBOL;
     }
 
     public boolean isUnderAttack(ChessBoard cb, int line, int column) {
@@ -64,13 +64,13 @@ public class King extends ChessPiece {
             for (int i = 1; i <= 7; i ++) {
                 int bcl = line + (line == 0 ? i : -i); // beingCheckedLine
                 if (cb.board[bcl][column] != null) {
-                    if (cb.board[bcl][column].getColor().equals(line == 0 ? ChessPiece.WHITE_PIECE : ChessPiece.BLACK_PIECE)) {
+                    if (cb.board[bcl][column].getColor().equals(line == 0 ? ChessPiece.WHITE : ChessPiece.BLACK)) {
                         return false;
                     } else {
                         String pieceSymbol = cb.board[bcl][column].getSymbol();
                         return pieceSymbol.equals(Rook.PIECE_SYMBOL) ||
                                 pieceSymbol.equals(Queen.PIECE_SYMBOL) ||
-                                (pieceSymbol.equals(King.PIECE_SYMBOL) && bcl == 1);
+                                (pieceSymbol.equals(King.SYMBOL) && bcl == 1);
                     }
                 }
             }
@@ -85,13 +85,13 @@ public class King extends ChessPiece {
                 int bcl = line + (line == 0 ? i : -i); // beingCheckedLine
                 int bcc = column - i; // beingCheckedColumn
                 if (cb.board[bcl][bcc] != null) {
-                    if (cb.board[bcl][bcc].getColor().equals(line == 0 ? ChessPiece.WHITE_PIECE : ChessPiece.BLACK_PIECE)) {
+                    if (cb.board[bcl][bcc].getColor().equals(line == 0 ? ChessPiece.WHITE : ChessPiece.BLACK)) {
                         return false;
                     } else {
                         String pieceSymbol = cb.board[bcl][bcc].getSymbol();
                         return pieceSymbol.equals(Bishop.PIECE_SYMBOL) ||
                                 pieceSymbol.equals(Queen.PIECE_SYMBOL) ||
-                                (pieceSymbol.equals(King.PIECE_SYMBOL) && bcl == 1);
+                                (pieceSymbol.equals(King.SYMBOL) && bcl == 1);
                     }
                 }
             }
@@ -106,13 +106,13 @@ public class King extends ChessPiece {
                 int bcl = line + (line == 0 ? i : -i); // beingCheckedLine
                 int bcc = column + i; // beingCheckedColumn
                 if (cb.board[bcl][bcc] != null) {
-                    if (cb.board[bcl][bcc].getColor().equals(line == 0 ? ChessPiece.WHITE_PIECE : ChessPiece.BLACK_PIECE)) {
+                    if (cb.board[bcl][bcc].getColor().equals(line == 0 ? ChessPiece.WHITE : ChessPiece.BLACK)) {
                         return false;
                     } else {
                         String pieceSymbol = cb.board[bcl][bcc].getSymbol();
                         return pieceSymbol.equals(Bishop.PIECE_SYMBOL) ||
                                 pieceSymbol.equals(Queen.PIECE_SYMBOL) ||
-                                (pieceSymbol.equals(King.PIECE_SYMBOL) && bcl == 1);
+                                (pieceSymbol.equals(King.SYMBOL) && bcl == 1);
                     }
                 }
             }

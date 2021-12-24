@@ -90,7 +90,6 @@ public class Main {
                     } catch (Exception e) {
                         System.out.println("Вы что-то ввели не так, попробуйте ещё раз");
                     }
-
                 }
             }
         }
