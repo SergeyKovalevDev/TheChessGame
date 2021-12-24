@@ -15,10 +15,12 @@ public class Pawn extends ChessPiece {
         boolean check;
         if (color.equals(WHITE_PIECE)) {
             check = (toLine - line) == 1 && cb.board[toLine][toColumn] == null ||
-                    (toLine - line) == 2 && line == 1 && cb.board[toLine - 1][toColumn] == null;
+                    (toLine - line) == 2 && line == 1 && cb.board[toLine - 1][toColumn] == null &&
+                            cb.board[toLine][toColumn] == null;
         } else if (color.equals(BLACK_PIECE)){
             check = (toLine - line) == -1 && cb.board[toLine][toColumn] == null ||
-                    (toLine - line) == -2 && line == 6 && cb.board[toLine + 1][toColumn] == null;
+                    (toLine - line) == -2 && line == 6 && cb.board[toLine + 1][toColumn] == null &&
+                            cb.board[toLine][toColumn] == null;
         } else {
             check = false;
         }
