@@ -11,7 +11,7 @@ public class Bishop extends ChessPiece {
     }
 
     @Override
-    public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
+    public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
         return Math.abs(line - toLine) == Math.abs(column - toColumn) &&
                 Math.abs(line - toLine) > 0 &&
                 isOnTheField(toLine, toColumn);
