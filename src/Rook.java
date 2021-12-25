@@ -54,7 +54,7 @@ public class Rook extends ChessPiece {
 
     private boolean canCut(ChessBoard cb, int toLine, int toColumn) {
         if (cb.board[toLine][toColumn] != null) {
-            return cb.board[toLine][toColumn].color.equals(color.equals(WHITE) ? BLACK : WHITE);
+            return cb.board[toLine][toColumn].getColor().equals(color.equals(WHITE) ? BLACK : WHITE);
         } else {
             return true;
         }
