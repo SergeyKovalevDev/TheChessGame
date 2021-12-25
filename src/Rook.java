@@ -1,5 +1,5 @@
 public class Rook extends ChessPiece {
-    public static final String PIECE_SYMBOL = "R";
+    public static final String SYMBOL = "R";
 
     public Rook(String color) {
         super(color);
@@ -11,14 +11,52 @@ public class Rook extends ChessPiece {
     }
 
     @Override
-    public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
-        return (((line - toLine) == 0 && Math.abs(column - toColumn) > 0) ||
-                ((column - toColumn) == 0 && Math.abs(line - toLine) > 0)) &&
-                isOnTheField(toLine, toColumn);
+    public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
+        if (isOnTheField(toLine, toColumn)) {
+            boolean retVal = true;
+            if ((line - toLine) == 0) {
+                if ((toColumn - column) > 0) {
+                    for (int i = column + 1; i <= toColumn - 1; i++) {
+                        retVal &= cb.board[line][i] == null;
+                    }
+                } else if ((toColumn - column) < 0) {
+                    for (int i = column - 1; i >= toColumn + 1; i--) {
+                        retVal &= cb.board[line][i] == null;
+                    }
+                } else {
+                    retVal = false;
+                }
+            } else if ((column - toColumn) == 0) {
+                if ((toLine - line) > 0) {
+                    for (int i = line + 1; i <= toLine - 1 ; i++) {
+                        retVal &= cb.board[i][column] == null;
+                    }
+                } else if ((toLine - line) < 0) {
+                    for (int i = line - 1; i >= toLine + 1; i--) {
+                        retVal &= cb.board[i][column] == null;
+                    }
+                } else {
+                    retVal = false;
+                }
+            } else {
+                retVal = false;
+            }
+            return retVal && canCut(cb, toLine, toColumn);
+        } else {
+            return false;
+        }
     }
 
     @Override
     public String getSymbol() {
-        return PIECE_SYMBOL;
+        return SYMBOL;
+    }
+
+    private boolean canCut(ChessBoard cb, int line, int column) {
+        if (cb.board[line][column] != null) {
+            return cb.board[line][column].color.equals(color.equals(WHITE) ? BLACK : WHITE);
+        } else {
+            return true;
+        }
     }
 }

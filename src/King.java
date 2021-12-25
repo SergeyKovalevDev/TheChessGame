@@ -68,7 +68,7 @@ public class King extends ChessPiece {
                         return false;
                     } else {
                         String pieceSymbol = cb.board[bcl][column].getSymbol();
-                        return pieceSymbol.equals(Rook.PIECE_SYMBOL) ||
+                        return pieceSymbol.equals(Rook.SYMBOL) ||
                                 pieceSymbol.equals(Queen.PIECE_SYMBOL) ||
                                 (pieceSymbol.equals(King.SYMBOL) && bcl == 1);
                     }
