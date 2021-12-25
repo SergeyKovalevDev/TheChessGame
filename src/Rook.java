@@ -42,6 +42,7 @@ public class Rook extends ChessPiece {
                 retVal = false;
             }
             return retVal && canCut(cb, toLine, toColumn);
+            // TODO проверить надо ли метод canCut() выносить в класс ChessPiece
         } else {
             return false;
         }
