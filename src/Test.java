@@ -4,6 +4,7 @@ public class Test {
     public static void main(String[] args) {
         ChessBoard cb = new ChessBoard(WHITE);
         System.out.println("Проверка движения белой пешки " + (whitePawnMovingTest(cb) ? "успешна" : "провалена"));
+        cb = new ChessBoard(WHITE);
         System.out.println("Проверка рубки белой пешкой " + (whitePawnCuttingTest(cb) ? "успешна" : "провалена"));
     }
 

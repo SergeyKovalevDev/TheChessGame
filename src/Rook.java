@@ -52,9 +52,9 @@ public class Rook extends ChessPiece {
         return SYMBOL;
     }
 
-    private boolean canCut(ChessBoard cb, int line, int column) {
-        if (cb.board[line][column] != null) {
-            return cb.board[line][column].color.equals(color.equals(WHITE) ? BLACK : WHITE);
+    private boolean canCut(ChessBoard cb, int toLine, int toColumn) {
+        if (cb.board[toLine][toColumn] != null) {
+            return cb.board[toLine][toColumn].color.equals(color.equals(WHITE) ? BLACK : WHITE);
         } else {
             return true;
         }
