@@ -1,19 +1,22 @@
 public class Test {
     public static void main(String[] args) {
-        ChessBoard cb = new ChessBoard("White");
-        cb.board[1][0] = new Pawn("White");
-        cb.board[1][1] = new Pawn("White");
-        cb.board[1][2] = new Pawn("White");
-        cb.board[1][3] = new Pawn("White");
-        cb.board[1][4] = new Pawn("White");
-        cb.board[1][5] = new Pawn("White");
-        cb.board[1][6] = new Pawn("White");
-        cb.board[1][7] = new Pawn("White");
-        // Проверка хода белых пешек на один шаг вперед
-        boolean check = true;
+        ChessBoard cb = Main.buildBoard();
+        boolean check = false;
+        // Проверка хода пешек на один шаг вперед
         for (int i = 0; i < 8; i++) {
-            check &= cb.moveToPosition(1, i, 2, i);
+            check = cb.moveToPosition(1, i, 2, i) && cb.moveToPosition(6, i, 5, i);
         }
-        System.out.println("Проверка хода белых пешек на один шаг вперед успешна? - " + check);
+        System.out.println("Проверка хода пешек на один шаг вперед " + (check ? "успешна" : "провалена"));
+
+        // Проверка хода пешек на два шага вперед
+        cb = Main.buildBoard();
+        for (int i = 0; i < 8; i++) {
+            check = cb.moveToPosition(1, i, 3, i) && cb.moveToPosition(6, i, 4, i);
+        }
+        System.out.println("Проверка хода пешек на два шага вперед " + (check ? "успешна" : "провалена"));
+
+        // Проверка хода белой пешки назад
+
+        cb = Main.buildBoard();
     }
 }
