@@ -3,28 +3,27 @@ public class Test {
     public static final String BLACK = ChessPiece.BLACK;
     public static void main(String[] args) {
         //Проверка движения белой пешки
-        ChessBoard cb = new ChessBoard(WHITE);
-        whitePawnMovingTest(cb);
+        whitePawnMovingTest(new ChessBoard(WHITE));
         //Проверка движения черной пешки
-        cb = new ChessBoard(BLACK);
-        blackPawnMovingTest(cb);
+        blackPawnMovingTest(new ChessBoard(BLACK));
         //Проверка рубки белой пешкой
-        cb = new ChessBoard(WHITE);
-        whitePawnCuttingTest(cb);
+        whitePawnCuttingTest(new ChessBoard(WHITE));
         //Проверка рубки черной пешкой
-        cb = new ChessBoard(BLACK);
-        blackPawnCuttingTest(cb);
+        blackPawnCuttingTest(new ChessBoard(BLACK));
+        //Проверка движения ладьи
+        whiteRookMovingTest(new ChessBoard(WHITE));
+        //Проверка рубки ладьей
+        whiteRookCuttingTest(new ChessBoard(WHITE));
         
     }
 
     public static void whitePawnMovingTest(ChessBoard cb) {
-        boolean check;
         cb.board[1][1] = new Pawn(WHITE);
         cb.board[1][2] = new Pawn(WHITE);
         cb.board[3][3] = new Pawn(WHITE);
         // Проверка хода белой пешки на один шаг вперед
         cb.nowPlayer = WHITE;
-        check = cb.moveToPosition(1, 1, 2, 1);
+        boolean check = cb.moveToPosition(1, 1, 2, 1);
         // Проверка хода белой пешки на два шага вперед с линии 1
         cb.nowPlayer = WHITE;
         check &= cb.moveToPosition(1, 2, 3, 2);
@@ -64,13 +63,12 @@ public class Test {
     }
 
     public static void blackPawnMovingTest(ChessBoard cb) {
-        boolean check;
         cb.board[6][1] = new Pawn(BLACK);
         cb.board[6][2] = new Pawn(BLACK);
         cb.board[4][3] = new Pawn(BLACK);
         // Проверка хода черной пешки на один шаг вперед
         cb.nowPlayer = BLACK;
-        check = cb.moveToPosition(6, 1, 5, 1);
+        boolean check = cb.moveToPosition(6, 1, 5, 1);
         // Проверка хода черной пешки на два шага вперед с линии 6
         cb.nowPlayer = BLACK;
         check &= cb.moveToPosition(6, 2, 4, 2);
@@ -110,7 +108,6 @@ public class Test {
     }
 
     public static void whitePawnCuttingTest(ChessBoard cb) {
-        boolean check;
         cb.board[3][3] = new Pawn(WHITE);
         cb.board[4][2] = new Pawn(BLACK);
         cb.board[5][3] = new Pawn(BLACK);
@@ -118,7 +115,7 @@ public class Test {
         cb.board[6][2] = new Pawn(WHITE);
         // Проверка рубки белой пешкой влево вверх
         cb.nowPlayer = WHITE;
-        check = cb.moveToPosition(3, 3, 4, 2);
+        boolean check = cb.moveToPosition(3, 3, 4, 2);
         // Проверка рубки белой пешкой вправо вперед
         cb.nowPlayer = WHITE;
         check &= cb.moveToPosition(4, 2, 5, 3);
@@ -150,5 +147,49 @@ public class Test {
         cb.nowPlayer = BLACK;
         check &= !cb.moveToPosition(2, 3, 2, 2);
         System.out.println("Проверка рубки черной пешкой " + (check ? "успешна" : "провалена"));
+    }
+
+    public static void whiteRookMovingTest(ChessBoard cb) {
+        try {
+            //Проверка движения ладьи
+            cb.board[0][0] = new Rook(WHITE);
+            cb.nowPlayer = WHITE;
+            boolean check = cb.moveToPosition(0, 0, 7, 0);
+            cb.nowPlayer = WHITE;
+            check &= cb.moveToPosition(7, 0, 7, 7);
+            cb.nowPlayer = WHITE;
+            check &= cb.moveToPosition(7, 7, 7, 0);
+            cb.nowPlayer = WHITE;
+            check &= cb.moveToPosition(7, 0, 0, 0);
+            //Проверка NOT перепрыгивания через другие фигуры
+            cb.board[3][0] = new Pawn(WHITE);
+            cb.nowPlayer = WHITE;
+            check &= !cb.moveToPosition(0, 0, 7, 0);
+            cb.board[3][0] = new Pawn(BLACK);
+            cb.nowPlayer = WHITE;
+            check &= !cb.moveToPosition(0, 0, 7, 0);
+            System.out.println("Проверка движения ладьи " + (check ? "успешна" : "провалена"));
+        } catch (Exception e) {
+            System.out.println("Ошибка при проверке движения ладьи!");
+            e.printStackTrace();
+        }
+    }
+
+    public static void whiteRookCuttingTest(ChessBoard cb) {
+        try {
+            //Проверка рубки черной фигуры
+            cb.board[0][0] = new Rook(WHITE);
+            cb.board[3][0] = new Pawn(BLACK);
+            cb.board[6][0] = new Pawn(WHITE);
+            cb.nowPlayer = WHITE;
+            boolean check = cb.moveToPosition(0, 0, 3, 0);
+            //Проверка NOT рубки белой фигуры
+            cb.nowPlayer = WHITE;
+            check &= !cb.moveToPosition(3, 0, 6,  0);
+            System.out.println("Проверка рубки ладьей " + (check ? "успешна" : "провалена"));
+        } catch (Exception e) {
+            System.out.println("Ошибка при проверка рубки ладьей! ");
+            e.printStackTrace();
+        }
     }
 }
