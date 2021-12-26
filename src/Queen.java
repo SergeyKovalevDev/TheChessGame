@@ -12,10 +12,13 @@ public class Queen extends ChessPiece {
 
     @Override
     public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
-        return ((line - toLine) == 0 && Math.abs(column - toColumn) > 0 ||
-                (column - toColumn) == 0 && Math.abs(line - toLine) > 0 ||
-                Math.abs(line - toLine) == Math.abs(column - toColumn) && Math.abs(line - toLine) > 0) &&
-                isOnTheField(toLine, toColumn);
+        if (isOnTheField(toLine, toColumn)) {
+            return ((line - toLine) == 0 && Math.abs(column - toColumn) > 0 ||
+                    (column - toColumn) == 0 && Math.abs(line - toLine) > 0 ||
+                    Math.abs(line - toLine) == Math.abs(column - toColumn) && Math.abs(line - toLine) > 0);
+        } else {
+            return false;
+        }
     }
 
     @Override
