@@ -12,6 +12,7 @@ public class ChessBoard {
 
     public boolean moveToPosition(int startLine, int startColumn, int endLine, int endColumn) {
         if (checkPos(startLine) && checkPos(startColumn)) { // TODO надо сюда добавить проверку endLine и endColumn чтобы остальной код метода не выполнялся и убрать проверку из класса Chess Piece и наследников
+            //TODO а также проверку на ход в свое же местоположение
             if (!nowPlayer.equals(board[startLine][startColumn].getColor())) return false;
             if (board[startLine][startColumn].canMoveToPosition(this, startLine, startColumn, endLine, endColumn)) {
                 board[endLine][endColumn] = board[startLine][startColumn]; // if piece can move, we moved a piece
