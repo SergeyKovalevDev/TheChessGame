@@ -13,26 +13,14 @@ public class Pawn extends ChessPiece {
     @Override
     public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
         if (isOnTheField(toLine, toColumn)) {
-            if (color.equals(WHITE)) {
-                if ((column - toColumn) == 0) {
-                    if ((toLine - line) == 1) {
-                        return cb.board[toLine][toColumn] == null;
-                    } else if ((toLine - line) == 2 && line == 1) {
-                        return cb.board[toLine - 1][toColumn] == null && cb.board[toLine][toColumn] == null;
-                    }
-                } else if (Math.abs(column - toColumn) == 1 && (toLine - line) == 1) {
-                    return canCut(cb, toLine, toColumn);
+            if ((column - toColumn) == 0) {
+                if ((toLine - line) == (color.equals(WHITE) ? 1 : -1)) {
+                    return cb.board[toLine][toColumn] == null;
+                } else if ((toLine - line) == (color.equals(WHITE) ? 2 : -2) && line == (color.equals(WHITE) ? 1 : 6)) {
+                    return cb.board[toLine + (color.equals(WHITE) ? - 1 : 1)][toColumn] == null && cb.board[toLine][toColumn] == null;
                 }
-            } else if (color.equals(BLACK)) {
-                if ((column - toColumn) == 0) {
-                    if ((toLine - line) == -1) {
-                        return cb.board[toLine][toColumn] == null;
-                    } else if ((toLine - line) == -2 && line == 6) {
-                        return cb.board[toLine + 1][toColumn] == null && cb.board[toLine][toColumn] == null;
-                    }
-                } else if (Math.abs(column - toColumn) == 1 && (toLine - line) == -1) {
-                    return canCut(cb, toLine, toColumn);
-                }
+            } else if (Math.abs(column - toColumn) == 1 && (toLine - line) == (color.equals(WHITE) ? 1 : -1)) {
+                return canCut(cb, toLine, toColumn);
             }
         }
         return false;
