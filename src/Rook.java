@@ -41,7 +41,7 @@ public class Rook extends ChessPiece {
             } else {
                 retVal = false;
             }
-            return retVal && canCut(cb, toLine, toColumn);
+            return retVal && canMoveOrCut(cb, toLine, toColumn);
         } else {
             return false;
         }

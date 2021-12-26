@@ -19,7 +19,7 @@ public abstract class ChessPiece {
         return line >= 0 && line <= 7 && column >= 0 && column <= 7;
     }
 
-    public boolean canCut(ChessBoard cb, int toLine, int toColumn) {
+    public boolean canMoveOrCut(ChessBoard cb, int toLine, int toColumn) {
         if (cb.board[toLine][toColumn] != null) {
             return cb.board[toLine][toColumn].getColor().equals(color.equals(WHITE) ? BLACK : WHITE);
         } else {

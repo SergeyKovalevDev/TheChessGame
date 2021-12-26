@@ -20,14 +20,14 @@ public class Pawn extends ChessPiece {
                     return cb.board[toLine + (color.equals(WHITE) ? - 1 : 1)][toColumn] == null && cb.board[toLine][toColumn] == null;
                 }
             } else if (Math.abs(column - toColumn) == 1 && (toLine - line) == (color.equals(WHITE) ? 1 : -1)) {
-                return canCut(cb, toLine, toColumn);
+                return canMoveOrCut(cb, toLine, toColumn);
             }
         }
         return false;
     }
 
     @Override
-    public boolean canCut(ChessBoard cb, int toLine, int toColumn) {
+    public boolean canMoveOrCut(ChessBoard cb, int toLine, int toColumn) {
         if (cb.board[toLine][toColumn] != null) {
             return cb.board[toLine][toColumn].getColor().equals(color.equals(WHITE) ? BLACK : WHITE) &&
                     !cb.board[toLine][toColumn].getSymbol().equals(King.SYMBOL);
