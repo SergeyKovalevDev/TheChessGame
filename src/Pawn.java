@@ -20,9 +20,8 @@ public class Pawn extends ChessPiece {
                     } else if ((toLine - line) == 2 && line == 1) {
                         return cb.board[toLine - 1][toColumn] == null && cb.board[toLine][toColumn] == null;
                     }
-                } else if (Math.abs(column - toColumn) == 1 && (toLine - line) == 1 && cb.board[toLine][toColumn] != null) {
-                    return cb.board[toLine][toColumn].getColor().equals(BLACK) &&
-                            !cb.board[toLine][toColumn].getSymbol().equals(King.SYMBOL);
+                } else if (Math.abs(column - toColumn) == 1 && (toLine - line) == 1) {
+                    return canCut(cb, toLine, toColumn);
                 }
             } else if (color.equals(BLACK)) {
                 if ((column - toColumn) == 0) {
@@ -31,13 +30,22 @@ public class Pawn extends ChessPiece {
                     } else if ((toLine - line) == -2 && line == 6) {
                         return cb.board[toLine + 1][toColumn] == null && cb.board[toLine][toColumn] == null;
                     }
-                } else if (Math.abs(column - toColumn) == 1 && (toLine - line) == -1 && cb.board[toLine][toColumn] != null) {
-                    return cb.board[toLine][toColumn].getColor().equals(WHITE) &&
-                            !cb.board[toLine][toColumn].getSymbol().equals(King.SYMBOL);
+                } else if (Math.abs(column - toColumn) == 1 && (toLine - line) == -1) {
+                    return canCut(cb, toLine, toColumn);
                 }
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean canCut(ChessBoard cb, int toLine, int toColumn) {
+        if (cb.board[toLine][toColumn] != null) {
+            return cb.board[toLine][toColumn].getColor().equals(color.equals(WHITE) ? BLACK : WHITE) &&
+                    !cb.board[toLine][toColumn].getSymbol().equals(King.SYMBOL);
+        } else {
+            return false;
+        }
     }
 
     @Override
