@@ -10,11 +10,14 @@ public class Test {
         whitePawnCuttingTest(new ChessBoard(WHITE));
         //Проверка рубки черной пешкой
         blackPawnCuttingTest(new ChessBoard(BLACK));
-        //Проверка движения ладьи
+        //Проверка движения белой ладьи
         whiteRookMovingTest(new ChessBoard(WHITE));
-        //Проверка рубки ладьей
+        //Проверка рубки белой ладьей
         whiteRookCuttingTest(new ChessBoard(WHITE));
-        
+        //Проверка движения белого коня
+        whiteHorseMovingTest(new ChessBoard(WHITE));
+        //Проверка рубки конем
+        whiteHorseCuttingTest(new ChessBoard(WHITE));
     }
 
     public static void whitePawnMovingTest(ChessBoard cb) {
@@ -189,6 +192,75 @@ public class Test {
             System.out.println("Проверка рубки ладьей " + (check ? "успешна" : "провалена"));
         } catch (Exception e) {
             System.out.println("Ошибка при проверка рубки ладьей! ");
+            e.printStackTrace();
+        }
+    }
+
+    public static void whiteHorseMovingTest(ChessBoard cb) {
+        try {
+            //Проверка хода коня
+            cb.board[4][2] = new Rook(WHITE);
+            cb.board[4][3] = new Rook(BLACK);
+            cb.board[4][4] = new Rook(WHITE);
+            cb.board[3][2] = new Rook(BLACK);
+            cb.board[3][3] = new Horse(WHITE);
+            cb.board[3][4] = new Rook(WHITE);
+            cb.board[2][2] = new Rook(BLACK);
+            cb.board[2][3] = new Rook(WHITE);
+            cb.board[2][4] = new Rook(BLACK);
+            cb.nowPlayer = WHITE;
+            boolean check = cb.moveToPosition(3, 3, 5, 2);
+            cb.board[3][3] = new Horse(WHITE);
+            cb.nowPlayer = WHITE;
+            check &= cb.moveToPosition(3, 3, 5, 4);
+            cb.board[3][3] = new Horse(WHITE);
+            cb.nowPlayer = WHITE;
+            check &= cb.moveToPosition(3, 3, 4, 5);
+            cb.board[3][3] = new Horse(WHITE);
+            cb.nowPlayer = WHITE;
+            check &= cb.moveToPosition(3, 3, 2, 5);
+            cb.board[3][3] = new Horse(WHITE);
+            cb.nowPlayer = WHITE;
+            check &= cb.moveToPosition(3, 3, 1, 4);
+            cb.board[3][3] = new Horse(WHITE);
+            cb.nowPlayer = WHITE;
+            check &= cb.moveToPosition(3, 3, 1, 2);
+            cb.board[3][3] = new Horse(WHITE);
+            cb.nowPlayer = WHITE;
+            check &= cb.moveToPosition(3, 3, 2, 1);
+            cb.board[3][3] = new Horse(WHITE);
+            cb.nowPlayer = WHITE;
+            check &= cb.moveToPosition(3, 3, 4, 1);
+            System.out.println("Проверка движения коня " + (check ? "успешна" : "провалена"));
+        } catch (Exception e) {
+            System.out.println("Ошибка при проверке движения коня!");
+            e.printStackTrace();
+        }
+    }
+
+    public static void whiteHorseCuttingTest(ChessBoard cb) {
+        try {
+            //Проверка рубки белым конем черных фигур
+            cb.board[4][1] = new Rook(BLACK);
+            cb.board[4][5] = new Rook(BLACK);
+            cb.board[3][3] = new Horse(WHITE);
+            cb.board[2][1] = new King(WHITE);
+            cb.board[2][5] = new Queen(WHITE);
+            cb.nowPlayer = WHITE;
+            boolean check = cb.moveToPosition(3, 3, 4, 1);
+            cb.board[3][3] = new Horse(WHITE);
+            cb.nowPlayer = WHITE;
+            check &= cb.moveToPosition(3, 3, 4, 5);
+            //Проверка NOT рубки белым конем черных фигур
+            cb.board[3][3] = new Horse(WHITE);
+            cb.nowPlayer = WHITE;
+            check &= !cb.moveToPosition(3, 3, 2, 1);
+            cb.board[3][3] = new Horse(WHITE);
+            cb.nowPlayer = WHITE;
+            check &= !cb.moveToPosition(3, 3, 2, 5);
+            System.out.println("Проверка рубки конем " + (check ? "успешна" : "провалена"));
+        } catch (Exception e) {
+            System.out.println("Ошибка при проверке рубки конем!");
             e.printStackTrace();
         }
     }
