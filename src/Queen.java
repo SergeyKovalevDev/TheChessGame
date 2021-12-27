@@ -1,5 +1,5 @@
 public class Queen extends ChessPiece {
-    public static final String PIECE_SYMBOL = "Q";
+    public static final String SYMBOL = "Q";
 
     public Queen(String color) {
         super(color);
@@ -30,6 +30,6 @@ public class Queen extends ChessPiece {
 
     @Override
     public String getSymbol() {
-        return PIECE_SYMBOL;
+        return SYMBOL;
     }
 }

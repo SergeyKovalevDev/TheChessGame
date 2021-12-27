@@ -79,7 +79,7 @@ public class King extends ChessPiece {
                     } else {
                         String pieceSymbol = cb.board[bcl][column].getSymbol();
                         return pieceSymbol.equals(Rook.SYMBOL) ||
-                                pieceSymbol.equals(Queen.PIECE_SYMBOL) ||
+                                pieceSymbol.equals(Queen.SYMBOL) ||
                                 (pieceSymbol.equals(King.SYMBOL) && bcl == 1);
                     }
                 }
@@ -99,8 +99,8 @@ public class King extends ChessPiece {
                         return false;
                     } else {
                         String pieceSymbol = cb.board[bcl][bcc].getSymbol();
-                        return pieceSymbol.equals(Bishop.PIECE_SYMBOL) ||
-                                pieceSymbol.equals(Queen.PIECE_SYMBOL) ||
+                        return pieceSymbol.equals(Bishop.SYMBOL) ||
+                                pieceSymbol.equals(Queen.SYMBOL) ||
                                 (pieceSymbol.equals(King.SYMBOL) && bcl == 1);
                     }
                 }
@@ -120,8 +120,8 @@ public class King extends ChessPiece {
                         return false;
                     } else {
                         String pieceSymbol = cb.board[bcl][bcc].getSymbol();
-                        return pieceSymbol.equals(Bishop.PIECE_SYMBOL) ||
-                                pieceSymbol.equals(Queen.PIECE_SYMBOL) ||
+                        return pieceSymbol.equals(Bishop.SYMBOL) ||
+                                pieceSymbol.equals(Queen.SYMBOL) ||
                                 (pieceSymbol.equals(King.SYMBOL) && bcl == 1);
                     }
                 }

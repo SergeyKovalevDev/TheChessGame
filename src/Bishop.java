@@ -1,5 +1,5 @@
 public class Bishop extends ChessPiece {
-    public static final String PIECE_SYMBOL = "B";
+    public static final String SYMBOL = "B";
 
     public Bishop(String color) {
         super(color);
@@ -28,6 +28,6 @@ public class Bishop extends ChessPiece {
 
     @Override
     public String getSymbol() {
-        return PIECE_SYMBOL;
+        return SYMBOL;
     }
 }
