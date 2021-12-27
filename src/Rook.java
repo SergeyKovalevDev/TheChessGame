@@ -12,34 +12,14 @@ public class Rook extends ChessPiece {
 
     @Override
     public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
-        if (isOnTheField(toLine, toColumn)) {
+        if (isOnTheField(toLine, toColumn) &&
+                ((line - toLine) == 0 && Math.abs(column - toColumn) > 0 ||             // Ограничиваем движение только вдоль линии или
+                        (column - toColumn) == 0 && Math.abs(line - toLine) > 0)) {     // только вдоль столбца
+            int lineDir = Integer.compare(toLine, line);
+            int columnDir = Integer.compare (toColumn, column);
             boolean retVal = true;
-            if ((line - toLine) == 0) {
-                if ((toColumn - column) > 0) {
-                    for (int i = column + 1; i <= toColumn - 1; i++) {
-                        retVal &= cb.board[line][i] == null;
-                    }
-                } else if ((toColumn - column) < 0) {
-                    for (int i = column - 1; i >= toColumn + 1; i--) {
-                        retVal &= cb.board[line][i] == null;
-                    }
-                } else {
-                    retVal = false;
-                }
-            } else if ((column - toColumn) == 0) {
-                if ((toLine - line) > 0) {
-                    for (int i = line + 1; i <= toLine - 1 ; i++) {
-                        retVal &= cb.board[i][column] == null;
-                    }
-                } else if ((toLine - line) < 0) {
-                    for (int i = line - 1; i >= toLine + 1; i--) {
-                        retVal &= cb.board[i][column] == null;
-                    }
-                } else {
-                    retVal = false;
-                }
-            } else {
-                retVal = false;
+            for (int i = 1; i < Math.max(Math.abs(toLine - line), Math.abs(toColumn - column)); i++) {
+                retVal &= cb.board[line + i * lineDir][column + i  * columnDir] == null;
             }
             return retVal && canMoveOrCut(cb, toLine, toColumn);
         } else {
