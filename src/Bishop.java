@@ -12,12 +12,13 @@ public class Bishop extends ChessPiece {
 
     @Override
     public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
-        if (isOnTheField(toLine, toColumn) && Math.abs(line - toLine) == Math.abs(column - toColumn)
-                && Math.abs(line - toLine) > 0) {
+        if (isOnTheField(toLine, toColumn) &&
+                Math.abs(line - toLine) == Math.abs(column - toColumn) &&
+                Math.abs(line - toLine) > 0) {
+            int lineDir = Integer.compare(toLine, line);
+            int columnDir = Integer.compare (toColumn, column);
             boolean retVal = true;
-            int lineDir = ((toLine - line) > 0) ? 1 : -1;
-            int columnDir = ((toColumn - column) > 0) ? 1 : -1;
-            for (int i = 1; i < (toLine - line) * lineDir; i++) {
+            for (int i = 1; i < Math.abs(toLine - line); i++) {
                 retVal &= cb.board[line + i * lineDir][column + i  * columnDir] == null;
             }
             return retVal && canMoveOrCut(cb, toLine, toColumn);
