@@ -26,4 +26,14 @@ public abstract class ChessPiece {
             return true;
         }
     }
+
+    public boolean checkFreePath(ChessBoard cb, int line, int column, int toLine, int toColumn) {
+        int lineDir = Integer.compare(toLine, line);
+        int columnDir = Integer.compare (toColumn, column);
+        boolean retVal = true;
+        for (int i = 1; i < Math.max(Math.abs(toLine - line), Math.abs(toColumn - column)); i++) {
+            retVal &= cb.board[line + i * lineDir][column + i  * columnDir] == null;
+        }
+        return retVal && canMoveOrCut(cb, toLine, toColumn);
+    }
 }

@@ -14,6 +14,8 @@ public class Bishop extends ChessPiece {
     public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
         if (isOnTheField(toLine, toColumn) &&
                 Math.abs(line - toLine) == Math.abs(column - toColumn) && Math.abs(line - toLine) > 0) { // Ограничиваем движение только по диагонали
+            return checkFreePath(cb, line, column, toLine, toColumn);
+/*
             int lineDir = Integer.compare(toLine, line);
             int columnDir = Integer.compare (toColumn, column);
             boolean retVal = true;
@@ -21,6 +23,7 @@ public class Bishop extends ChessPiece {
                 retVal &= cb.board[line + i * lineDir][column + i  * columnDir] == null;
             }
             return retVal && canMoveOrCut(cb, toLine, toColumn);
+*/
         } else {
             return false;
         }

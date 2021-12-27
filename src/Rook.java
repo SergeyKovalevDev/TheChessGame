@@ -15,6 +15,8 @@ public class Rook extends ChessPiece {
         if (isOnTheField(toLine, toColumn) &&
                 ((line - toLine) == 0 && Math.abs(column - toColumn) > 0 ||             // Ограничиваем движение только вдоль линии или
                         (column - toColumn) == 0 && Math.abs(line - toLine) > 0)) {     // только вдоль столбца
+            return checkFreePath(cb, line, column, toLine, toColumn);
+/*
             int lineDir = Integer.compare(toLine, line);
             int columnDir = Integer.compare (toColumn, column);
             boolean retVal = true;
@@ -22,6 +24,7 @@ public class Rook extends ChessPiece {
                 retVal &= cb.board[line + i * lineDir][column + i  * columnDir] == null;
             }
             return retVal && canMoveOrCut(cb, toLine, toColumn);
+*/
         } else {
             return false;
         }
