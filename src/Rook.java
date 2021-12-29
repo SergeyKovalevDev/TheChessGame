@@ -17,7 +17,7 @@ public class Rook extends ChessPiece {
                 ((line - toLine) == 0 && Math.abs(column - toColumn) > 0 ||
                         // только вдоль столбца
                         (column - toColumn) == 0 && Math.abs(line - toLine) > 0)) {
-            return checkFreePath(cb, line, column, toLine, toColumn);
+            return checkFreePath(cb, line, column, toLine, toColumn) && canMoveOrCut(cb, toLine, toColumn);
         } else {
             return false;
         }

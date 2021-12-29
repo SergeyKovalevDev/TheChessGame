@@ -19,7 +19,7 @@ public class King extends ChessPiece {
                         (line - toLine) == 0 && Math.abs(column - toColumn) == 1 ||
                         // только вдоль столбца на 1 шаг
                         (column - toColumn) == 0 && Math.abs(line - toLine) == 1))) {
-            return checkFreePath(cb, line, column, toLine, toColumn);
+            return checkFreePath(cb, line, column, toLine, toColumn) && canMoveOrCut(cb, toLine, toColumn);
         } else {
             return false;
         }

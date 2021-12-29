@@ -15,7 +15,7 @@ public class Bishop extends ChessPiece {
         if (isOnTheField(toLine, toColumn) &&
                 // Ограничиваем движение только по диагонали
                 Math.abs(line - toLine) == Math.abs(column - toColumn) && Math.abs(line - toLine) > 0) {
-            return checkFreePath(cb, line, column, toLine, toColumn);
+            return checkFreePath(cb, line, column, toLine, toColumn) && canMoveOrCut(cb, toLine, toColumn);
         } else {
             return false;
         }

@@ -26,7 +26,7 @@ public abstract class ChessPiece {
         for (int i = 1; i < Math.max(Math.abs(toLine - line), Math.abs(toColumn - column)); i++) {
             retVal &= cb.board[line + i * lineDir][column + i  * columnDir] == null;
         }
-        return retVal && canMoveOrCut(cb, toLine, toColumn);
+        return retVal;
     }
 
     public boolean canMoveOrCut(ChessBoard cb, int toLine, int toColumn) {
