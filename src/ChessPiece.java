@@ -19,14 +19,6 @@ public abstract class ChessPiece {
         return line >= 0 && line <= 7 && column >= 0 && column <= 7;
     }
 
-    public boolean canMoveOrCut(ChessBoard cb, int toLine, int toColumn) {
-        if (cb.board[toLine][toColumn] != null) {
-            return cb.board[toLine][toColumn].getColor().equals(color.equals(WHITE) ? BLACK : WHITE);
-        } else {
-            return true;
-        }
-    }
-
     public boolean checkFreePath(ChessBoard cb, int line, int column, int toLine, int toColumn) {
         int lineDir = Integer.compare(toLine, line);
         int columnDir = Integer.compare (toColumn, column);
@@ -35,5 +27,13 @@ public abstract class ChessPiece {
             retVal &= cb.board[line + i * lineDir][column + i  * columnDir] == null;
         }
         return retVal && canMoveOrCut(cb, toLine, toColumn);
+    }
+
+    public boolean canMoveOrCut(ChessBoard cb, int toLine, int toColumn) {
+        if (cb.board[toLine][toColumn] != null) {
+            return cb.board[toLine][toColumn].getColor().equals(color.equals(WHITE) ? BLACK : WHITE);
+        } else {
+            return true;
+        }
     }
 }

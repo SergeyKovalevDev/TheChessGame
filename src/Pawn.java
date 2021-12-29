@@ -27,6 +27,7 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
+    // Метод переопределен т.к. пешка не может сходить по диагонали без рубки и рубить короля
     public boolean canMoveOrCut(ChessBoard cb, int toLine, int toColumn) {
         if (cb.board[toLine][toColumn] != null) {
             return cb.board[toLine][toColumn].getColor().equals(color.equals(WHITE) ? BLACK : WHITE) &&
