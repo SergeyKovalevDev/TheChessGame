@@ -22,11 +22,12 @@ public abstract class ChessPiece {
     public boolean checkFreePath(ChessBoard cb, int line, int column, int toLine, int toColumn) {
         int lineDir = Integer.compare(toLine, line);
         int columnDir = Integer.compare (toColumn, column);
-        boolean retVal = true;
         for (int i = 1; i < Math.max(Math.abs(toLine - line), Math.abs(toColumn - column)); i++) {
-            retVal &= cb.board[line + i * lineDir][column + i  * columnDir] == null;
+            if (cb.board[line + i * lineDir][column + i  * columnDir] != null) {
+                return false;
+            }
         }
-        return retVal;
+        return true;
     }
 
     public boolean canMoveOrCut(ChessBoard cb, int toLine, int toColumn) {
