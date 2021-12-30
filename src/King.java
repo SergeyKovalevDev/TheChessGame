@@ -31,100 +31,68 @@ public class King extends ChessPiece {
     }
 
     public boolean isUnderAttack(ChessBoard cb, int line, int column) {
-        return isUnderAttackByHorse(cb, line, column) ||
-                isUnderVerticalAttack(cb ,line, column) ||
-                isUnderFirstDiagonalAttack(cb, line, column) ||
-                isUnderSecondDiagonalAttack(cb, line, column);
+        return isUnderAttackByHorseA(cb, line, column) || isUnderDiagonalOrVerticalAttack(cb, line, column);
     }
 
-    private boolean isUnderAttackByHorse (ChessBoard cb, int line, int column) {
-        boolean retVal = false;
-        if (line == 0 && column == 2) {// King("White").isUnderAttack(this, 0, 2)
-            if (cb.board[1][0] != null) retVal = cb.board[1][0].getSymbol().equals(Horse.PIECE_SYMBOL);
-            if (cb.board[2][1] != null) retVal |= cb.board[2][1].getSymbol().equals(Horse.PIECE_SYMBOL);
-            if (cb.board[2][3] != null) retVal |= cb.board[2][3].getSymbol().equals(Horse.PIECE_SYMBOL);
-            if (cb.board[1][4] != null) retVal |= cb.board[1][4].getSymbol().equals(Horse.PIECE_SYMBOL);
-            return retVal;
-        } else if (line == 0 && column == 6) {// King("White").isUnderAttack(this, 0, 6)
-            if (cb.board[1][4] != null) retVal = cb.board[1][4].getSymbol().equals(Horse.PIECE_SYMBOL);
-            if (cb.board[2][5] != null) retVal |= cb.board[2][5].getSymbol().equals(Horse.PIECE_SYMBOL);
-            if (cb.board[2][7] != null) retVal |= cb.board[2][7].getSymbol().equals(Horse.PIECE_SYMBOL);
-            return retVal;
-        } else if (line == 7 && column == 2) {// King("Black").isUnderAttack(this, 7, 2)
-            if (cb.board[6][0] != null) retVal = cb.board[6][0].getSymbol().equals(Horse.PIECE_SYMBOL);
-            if (cb.board[5][1] != null) retVal |= cb.board[5][1].getSymbol().equals(Horse.PIECE_SYMBOL);
-            if (cb.board[5][3] != null) retVal |= cb.board[5][3].getSymbol().equals(Horse.PIECE_SYMBOL);
-            if (cb.board[6][4] != null) retVal |= cb.board[6][4].getSymbol().equals(Horse.PIECE_SYMBOL);
-            return retVal;
-        } else if (line == 7 && column == 6) {// King("Black").isUnderAttack(this, 7, 6)
-            if (cb.board[6][4] != null) retVal = cb.board[6][4].getSymbol().equals(Horse.PIECE_SYMBOL);
-            if (cb.board[5][5] != null) retVal |= cb.board[5][5].getSymbol().equals(Horse.PIECE_SYMBOL);
-            if (cb.board[5][7] != null) retVal |= cb.board[5][7].getSymbol().equals(Horse.PIECE_SYMBOL);
-            return retVal;
+    private boolean isUnderAttackByHorseA(ChessBoard cb, int line, int column) {
+        if (line == 0 && column == 2) {
+            int[][] beingCheckedArray = new int[][] {{1, 0}, {2, 1}, {2, 3}, {1, 4}};
+            return isUnderAttackFormArray(cb, beingCheckedArray, Horse.SYMBOL);
+        } else if (line == 0 && column == 6) {
+            int[][] beingCheckedArray = new int[][] {{1, 4}, {2, 5}, {2, 7}};
+            return isUnderAttackFormArray(cb, beingCheckedArray, Horse.SYMBOL);
+        } else if (line == 7 && column == 2) {
+            int[][] beingCheckedArray = new int[][] {{6, 0}, {5, 1}, {5, 3}, {6, 4}};
+            return isUnderAttackFormArray(cb, beingCheckedArray, Horse.SYMBOL);
+        } else if (line == 7 && column == 6) {
+            int[][] beingCheckedArray = new int[][] {{6, 4}, {5, 5}, {5, 7}};
+            return isUnderAttackFormArray(cb, beingCheckedArray, Horse.SYMBOL);
         } else {
             return true;
         }
     }
 
-    private boolean isUnderVerticalAttack(ChessBoard cb, int line, int column) {
-        if ((line == 0 || line == 7) && (column == 2 || column == 6)) {
-            for (int i = 1; i <= 7; i ++) {
-                int bcl = line + (line == 0 ? i : -i); // beingCheckedLine
-                if (cb.board[bcl][column] != null) {
-                    if (cb.board[bcl][column].getColor().equals(line == 0 ? ChessPiece.WHITE : ChessPiece.BLACK)) {
-                        return false;
-                    } else {
-                        String pieceSymbol = cb.board[bcl][column].getSymbol();
-                        return pieceSymbol.equals(Rook.SYMBOL) ||
-                                pieceSymbol.equals(Queen.SYMBOL) ||
-                                (pieceSymbol.equals(King.SYMBOL) && bcl == 1);
-                    }
-                }
+    private boolean isUnderDiagonalOrVerticalAttack(ChessBoard cb, int line, int column) {
+        for (int i = 1; i < 8 ; i++) {
+            int beingCheckedLine = line + (line == 0 ? i : -i);
+            int[][] checkingArray = new int[][]
+                    {{beingCheckedLine, column - i},
+                            {beingCheckedLine, column},
+                            {beingCheckedLine, column + i}};
+            if (isUnderAttackFormArray(cb, checkingArray, Bishop.SYMBOL) ||
+                    isUnderAttackFormArray(cb, checkingArray, Queen.SYMBOL) ||
+                    (isUnderAttackFormArray(cb, checkingArray, King.SYMBOL)&&
+                            (beingCheckedLine == 1 || beingCheckedLine == 6))) {
+                return true;
             }
-            return false;
         }
-        return true;
+        return false;
     }
 
-    private boolean isUnderFirstDiagonalAttack(ChessBoard cb, int line, int column) {
-        if ((line == 0 || line == 7) && (column == 2 || column == 6)) {
-            for (int i = 1; i <= column ; i++) {
-                int bcl = line + (line == 0 ? i : -i); // beingCheckedLine
-                int bcc = column - i; // beingCheckedColumn
-                if (cb.board[bcl][bcc] != null) {
-                    if (cb.board[bcl][bcc].getColor().equals(line == 0 ? ChessPiece.WHITE : ChessPiece.BLACK)) {
-                        return false;
-                    } else {
-                        String pieceSymbol = cb.board[bcl][bcc].getSymbol();
-                        return pieceSymbol.equals(Bishop.SYMBOL) ||
-                                pieceSymbol.equals(Queen.SYMBOL) ||
-                                (pieceSymbol.equals(King.SYMBOL) && bcl == 1);
-                    }
-                }
-            }
-            return false;
+    private boolean isUnderAttackFormArray(ChessBoard cb, int[][] beingCheckedArray, String pieceSymbol) {
+        boolean retVal = false;
+        for (int[] beingCheckedPos :
+                beingCheckedArray) {
+            int beingCheckedLine = beingCheckedPos[0];
+            int beingCheckedColumn = beingCheckedPos[1];
+            retVal |= isUnderAttackFormPosition(cb, beingCheckedLine, beingCheckedColumn, pieceSymbol);
         }
-        return true;
+        return retVal;
     }
 
-    private boolean isUnderSecondDiagonalAttack(ChessBoard cb, int line, int column) {
-        if ((line == 0 || line == 7) && (column == 2 || column == 6)) {
-            for (int i = 1; i <= (column == 2 ? 5 : 1) ; i++) {
-                int bcl = line + (line == 0 ? i : -i); // beingCheckedLine
-                int bcc = column + i; // beingCheckedColumn
-                if (cb.board[bcl][bcc] != null) {
-                    if (cb.board[bcl][bcc].getColor().equals(line == 0 ? ChessPiece.WHITE : ChessPiece.BLACK)) {
-                        return false;
-                    } else {
-                        String pieceSymbol = cb.board[bcl][bcc].getSymbol();
-                        return pieceSymbol.equals(Bishop.SYMBOL) ||
-                                pieceSymbol.equals(Queen.SYMBOL) ||
-                                (pieceSymbol.equals(King.SYMBOL) && bcl == 1);
-                    }
+    private boolean isUnderAttackFormPosition(ChessBoard cb, int beingCheckedLine, int beingCheckedColumn, String pieceSymbol) {
+        if (isOnTheField(beingCheckedLine, beingCheckedColumn)) {
+            if (cb.board[beingCheckedLine][beingCheckedColumn] != null) {
+                if (cb.board[beingCheckedLine][beingCheckedColumn].getColor().equals(color.equals(WHITE) ? BLACK : WHITE)) {
+                    return cb.board[beingCheckedLine][beingCheckedColumn].getSymbol().equals(pieceSymbol);
+                } else {
+                    return false;
                 }
+            } else {
+                return false;
             }
+        } else {
             return false;
         }
-        return true;
     }
 }
