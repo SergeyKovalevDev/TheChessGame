@@ -26,7 +26,9 @@ public class Pawn extends ChessPiece {
                 } else {
                     return false;
                 }
-            } else return false;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
