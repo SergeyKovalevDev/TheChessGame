@@ -31,10 +31,10 @@ public class King extends ChessPiece {
     }
 
     public boolean isUnderAttack(ChessBoard cb, int line, int column) {
-        return isUnderAttackByHorseA(cb, line, column) || isUnderDiagonalOrVerticalAttack(cb, line, column);
+        return isUnderAttackByHorse(cb, line, column) || isUnderDiagonalOrVerticalAttack(cb, line, column);
     }
 
-    private boolean isUnderAttackByHorseA(ChessBoard cb, int line, int column) {
+    private boolean isUnderAttackByHorse(ChessBoard cb, int line, int column) {
         if (line == 0 && column == 2) {
             int[][] beingCheckedArray = new int[][] {{1, 0}, {2, 1}, {2, 3}, {1, 4}};
             return isUnderAttackFormArray(cb, beingCheckedArray, Horse.SYMBOL);
