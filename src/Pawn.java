@@ -18,7 +18,9 @@ public class Pawn extends ChessPiece {
                     return cb.board[toLine][toColumn] == null;
                 } else if ((toLine - line) == (color.equals(WHITE) ? 2 : -2) && line == (color.equals(WHITE) ? 1 : 6)) {
                     return cb.board[toLine + (color.equals(WHITE) ? - 1 : 1)][toColumn] == null && cb.board[toLine][toColumn] == null;
-                } else return false;
+                } else {
+                    return false;
+                }
             } else if (Math.abs(column - toColumn) == 1 && (toLine - line) == (color.equals(WHITE) ? 1 : -1)) {
                 if (cb.board[toLine][toColumn] != null) {
                     return cb.board[toLine][toColumn].getColor().equals(color.equals(WHITE) ? BLACK : WHITE) &&
