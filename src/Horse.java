@@ -1,5 +1,5 @@
 public class Horse extends ChessPiece {
-    public static final String PIECE_SYMBOL = "H";
+    public static final String SYMBOL = "H";
 
     public Horse(String color) {
         super(color);
@@ -24,6 +24,6 @@ public class Horse extends ChessPiece {
 
     @Override
     public String getSymbol() {
-        return PIECE_SYMBOL;
+        return SYMBOL;
     }
 }
