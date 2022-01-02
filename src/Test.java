@@ -4,42 +4,43 @@ public class Test {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String[] COLOR_ARR = new String[]{WHITE, BLACK};
+    public static final int[][] pawnAcceptableMovingDirectionsArr = new int[][]{{1, 0}};
+    public static final int[][] pawnAcceptableCuttingDirectionsArr = new int[][] {{1, -1}, {1, 1}};
+    public static final int[][] rookAcceptableDirectionsArr = new int[][] {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
+    public static final int[][] horseAcceptableMovementsArr = new int[][] {{1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, -2}, {-2, -1}, {-2, 1}, {-1, 2}};
+    public static final int[][] bishopAcceptableDirectionsArr = new int[][] {{1, -1}, {1, 1}, {-1, -1}, {-1, 1}};
+    public static final int[][] queenAcceptableDirectionsArr = new int[][] {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+    public static final int[][] kingAcceptableDirectionsArr = queenAcceptableDirectionsArr;
+    public static final ChessPiece[] piecesArr = new ChessPiece[]{
+            new Pawn(WHITE), new Pawn(BLACK),
+            new Rook(WHITE), new Rook(BLACK),
+            new Horse(WHITE), new Horse(BLACK),
+            new Bishop(WHITE), new Bishop(BLACK),
+            new Queen(WHITE), new Queen(BLACK),
+            new King(WHITE), new King(BLACK)};
 
     public static void main(String[] args) {
         //Проверка движения пешки
         pawnMovingTest();
         //Проверка рубки пешкой
         pawnCuttingTest();
-        //Проверка движения ладьи
-        oldRookMovingTest();
-        //Проверка рубки ладьей
-        rookCuttingTest();
-        //Проверка движения коня
-        horseMovingTest();
-        //Проверка рубки конем
-        horseCuttingTest();
-
-        rookMovingTest();
+        System.out.println();
+        // Проверка движения пешки
+        RHBQK_movingAndCuttingTest(new Pawn(WHITE), 1, "пешки");
+        // Проверка движения ладьи
+        RHBQK_movingAndCuttingTest(new Rook(WHITE), 7, "ладьи");
+        // Проверка движения коня
+        RHBQK_movingAndCuttingTest(new Horse(WHITE), 2, "коня");
         // Проверка движения слона
-        bishopMovingTest();
-
-        queenMovingTest();
-
-        kingMovingTest();
-
-        System.out.println();
-        System.out.println();
-        movingTest(new Rook(WHITE), new int[][] {{-1, 0}, {0, -1}, {0, 1}, {1, 0}}, 8, "ладьи");
-        movingTest(new Bishop(WHITE), new int[][] {{1, -1}, {1, 1}, {-1, -1}, {-1, 1}}, 8, "слона");
-        movingTest(new Queen(WHITE), new int[][] {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}, 8,
-                "королевы");
-        movingTest(new King(WHITE), new int[][] {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}, 1,
-                "короля");
+        RHBQK_movingAndCuttingTest(new Bishop(WHITE), 7, "слона");
+        // Проверка движения королевы
+        RHBQK_movingAndCuttingTest(new Queen(WHITE), 7, "королевы");
+        // Проверка движения короля
+        RHBQK_movingAndCuttingTest(new King(WHITE), 1, "короля");
 
     }
 
-    public static void pawnMovingTest() {
+    private static void pawnMovingTest() {
         try {
             ChessBoard cb;
             boolean check = true;
@@ -133,7 +134,7 @@ public class Test {
         }
     }
 
-    public static void pawnCuttingTest() {
+    private static void pawnCuttingTest() {
         try {
             ChessBoard cb;
             boolean check = true;
@@ -183,248 +184,49 @@ public class Test {
         }
     }
 
-    public static void oldRookMovingTest() {
-        try {
-            ChessBoard cb;
-            boolean check = true;
-            for (String color : new String[] {WHITE, BLACK}) {
-                //Проверка движения ладьи
-                for (int line = 0; line < 8; line++) {
-                    for (int column = 0; column < 8; column++) {
-                        for (int toLine = 0; toLine < 8; toLine++) {
-                            for (int toColumn = 0; toColumn < 8; toColumn++) {
-                                if ((toLine == line ^ toColumn == column)) {
-                                    cb = new ChessBoard(WHITE);
-                                    cb.board[line][column] = new Rook(color);
-                                    cb.nowPlayer = color;
-                                    check &= cb.moveToPosition(line, column, toLine, toColumn);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                //Проверка NOT движения ладьи на свое же место
-                for (int line = 0; line < 8; line++) {
-                    for (int column = 0; column < 8; column++) {
-                        for (int toLine = 0; toLine < 8; toLine++) {
-                            for (int toColumn = 0; toColumn < 8; toColumn++) {
-                                if ((toLine == line && toColumn == column)) {
-                                    cb = new ChessBoard(WHITE);
-                                    cb.board[line][column] = new Rook(color);
-                                    cb.nowPlayer = color;
-                                    check &= !cb.moveToPosition(line, column, toLine, toColumn);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // Проверка NOT перепрыгивания ладьи через другие фигуры
-                String oppositeColor = color.equals(WHITE) ? BLACK : WHITE;
-                for (ChessPiece piece : new ChessPiece[]{
-                        new Pawn(color), new Pawn(oppositeColor),
-                        new Rook(color), new Rook(oppositeColor),
-                        new Horse(color), new Horse(oppositeColor),
-                        new Bishop(color), new Bishop(oppositeColor),
-                        new Queen(color), new Queen(oppositeColor),
-                        new King(color), new King(oppositeColor)}) {
-                    for (int line = 0; line < 8; line++) {
-                        for (int column = 0; column < 8; column++) {
-                            for (int i = 1; i < 6; i++) {
-                                for (int[] shift : new int[][]{{1, 0}, {0, -1}, {0, 1}, {-1, 0}}) {
-                                    cb = new ChessBoard(WHITE);
-                                    cb.board[line][column] = new Rook(color);
-                                    int shiftedLine = line + shift[0] * i;
-                                    int shiftedColumn = column + shift[1] * i;
-                                    if (isOnTheField(shiftedLine, shiftedColumn)) {
-                                        cb.board[shiftedLine][shiftedColumn] = piece;
-                                        cb.nowPlayer = color;
-                                        check &= !cb.moveToPosition(line, column, shiftedLine + shift[0], shiftedColumn + shift[1]);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            printResultString("Проверка движения ладьи", check);
-        } catch (Exception e) {
-            printErrorString("Ошибка при проверке движения ладьи!", e);
-            e.printStackTrace();
-        }
-    }
-
-    public static void rookCuttingTest() {
-        try {
-            ChessBoard cb;
-            boolean check = true;
-            for (String color : new String[] {WHITE, BLACK}) {
-                String oppositeColor = color.equals(WHITE) ? BLACK : WHITE;
-
-                // Проверка рубки ладьей других фигур
-                for (ChessPiece piece : new ChessPiece[]{
-                        new Pawn(oppositeColor),
-                        new Rook(oppositeColor),
-                        new Horse(oppositeColor),
-                        new Bishop(oppositeColor),
-                        new Queen(oppositeColor),
-                        new King(oppositeColor)}) {
-                    for (int line = 0; line < 8; line++) {
-                        for (int column = 0; column < 8; column++) {
-                            for (int i = 1; i < 6; i++) {
-                                for (int[] shift : new int[][]{{1, 0}, {0, -1}, {0, 1}, {-1, 0}}) {
-                                    cb = new ChessBoard(WHITE);
-                                    cb.board[line][column] = new Rook(color);
-                                    int shiftedLine = line + shift[0] * i;
-                                    int shiftedColumn = column + shift[1] * i;
-                                    if (isOnTheField(shiftedLine, shiftedColumn)) {
-                                        cb.board[shiftedLine][shiftedColumn] = piece;
-                                        cb.nowPlayer = color;
-                                        check &= cb.moveToPosition(line, column, shiftedLine, shiftedColumn);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // Проверка NOT рубки ладьей своих фигур
-                for (ChessPiece piece : new ChessPiece[]{
-                        new Pawn(color),
-                        new Rook(color),
-                        new Horse(color),
-                        new Bishop(color),
-                        new Queen(color),
-                        new King(color)}) {
-                    for (int line = 0; line < 8; line++) {
-                        for (int column = 0; column < 8; column++) {
-                            for (int i = 1; i < 6; i++) {
-                                for (int[] shift : new int[][]{{1, 0}, {0, -1}, {0, 1}, {-1, 0}}) {
-                                    cb = new ChessBoard(WHITE);
-                                    cb.board[line][column] = new Rook(color);
-                                    int shiftedLine = line + shift[0] * i;
-                                    int shiftedColumn = column + shift[1] * i;
-                                    if (isOnTheField(shiftedLine, shiftedColumn)) {
-                                        cb.board[shiftedLine][shiftedColumn] = piece;
-                                        cb.nowPlayer = color;
-                                        check &= !cb.moveToPosition(line, column, shiftedLine, shiftedColumn);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            printResultString("Проверка рубки ладьей", check);
-        } catch (Exception e) {
-            printErrorString("Ошибка при проверка рубки ладьей!", e);
-            e.printStackTrace();
-        }
-    }
-
-    public static void horseMovingTest() {
-        try {
-            ChessBoard cb;
-            boolean check = true;
-            for (String color : new String[] {WHITE, BLACK}) {
-                String oppositeColor = color.equals(WHITE) ? BLACK : WHITE;
-
-                // Проверка хода коня по свободному полю
-                for (int line = 0; line < 8; line++) {
-                    for (int column = 0; column < 8; column++) {
-                        for (int[] shift: new int[][] {{1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, -2}, {-2, -1}, {-2, 1}, {-1, 2}}) {
-                            cb = new ChessBoard(WHITE);
-                            cb.board[line][column] = new Horse(color);
-                            int toLine = line + shift[0];
-                            int toColumn = column + shift[1];
-                            if (isOnTheField(toLine, toColumn)) {
-                                cb.nowPlayer = color;
-                                check &= cb.moveToPosition(line, column, toLine, toColumn);
-                            }
-                        }
-                    }
-                }
-
-                // Проверка хода коня через фигуры своего и противоположного цветов
-                for (String col : new String[] {color, oppositeColor}) {
-                    for (int line = 0; line < 8; line++) {
-                        for (int column = 0; column < 8; column++) {
-                            for (int[] shift: new int[][] {{1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, -2}, {-2, -1}, {-2, 1}, {-1, 2}}) {
-                                cb = new ChessBoard(WHITE);
-                                fieldFilling(cb, new Pawn(col));
-                                cb.board[line][column] = new Horse(color);
-                                int toLine = line + shift[0];
-                                int toColumn = column + shift[1];
-                                if (isOnTheField(toLine, toColumn)) {
-                                    cb.board[toLine][toColumn] = null;
-                                    cb.nowPlayer = color;
-                                    check &= cb.moveToPosition(line, column, toLine, toColumn);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            printResultString("Проверка движения коня", check);
-        } catch (Exception e) {
-            printErrorString("Ошибка при проверке движения коня!", e);
-            e.printStackTrace();
-        }
-    }
-
-    public static void horseCuttingTest() {
-        try {
-            ChessBoard cb;
-            boolean check = true;
-            for (String color : new String[] {WHITE, BLACK}) {
-                String oppositeColor = color.equals(WHITE) ? BLACK : WHITE;
-
-                // Проверка рубки конем фигур противоположного цвета по всему полю
-                for (int line = 0; line < 8; line++) {
-                    for (int column = 0; column < 8; column++) {
-                        for (int[] shift: new int[][] {{1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, -2}, {-2, -1}, {-2, 1}, {-1, 2}}) {
-                            cb = new ChessBoard(WHITE);
-                            fieldFilling(cb, new Pawn(oppositeColor));
-                            cb.board[line][column] = new Horse(color);
-                            int toLine = line + shift[0];
-                            int toColumn = column + shift[1];
-                            if (isOnTheField(toLine, toColumn)) {
-                                cb.nowPlayer = color;
-                                check &= cb.moveToPosition(line, column, toLine, toColumn);
-                            }
-                        }
-                    }
-                }
-
-                // Проверка NOT рубки конем фигур своего цвета по всему полю
-                for (int line = 0; line < 8; line++) {
-                    for (int column = 0; column < 8; column++) {
-                        for (int[] shift: new int[][] {{1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, -2}, {-2, -1}, {-2, 1}, {-1, 2}}) {
-                            cb = new ChessBoard(WHITE);
-                            fieldFilling(cb, new Pawn(color));
-                            cb.board[line][column] = new Horse(color);
-                            int toLine = line + shift[0];
-                            int toColumn = column + shift[1];
-                            cb.nowPlayer = color;
-                            check &= !cb.moveToPosition(line, column, toLine, toColumn);
-                        }
-                    }
-                }
-            }
-            printResultString("Проверка рубки конем", check);
-        } catch (Exception e) {
-            printErrorString("Ошибка при проверке рубки конем!", e);
-        }
-    }
-
-    public static void movingTest(ChessPiece testingPiece, int[][] acceptableDirectionsArr, int maxIndent, String printingPieceName) {
+    private static void RHBQK_movingAndCuttingTest(ChessPiece testingPiece, int maxDistance, String printingPieceName) {
         try {
             boolean check = true;
             for (String color : new String[] {WHITE, BLACK}) {
                 testingPiece.color = color;
-                check &= freePathMovingTest(color, acceptableDirectionsArr, testingPiece, maxIndent);
-                check &= jumpOverMovingTest(color, acceptableDirectionsArr, testingPiece, maxIndent);
+                int[][] acceptableMovingArr = new int[0][0];
+                int[][] acceptableCuttingArr = new int[0][0];
+                switch (testingPiece.getSymbol()) {
+                    case Pawn.SYMBOL -> {
+                        acceptableMovingArr = pawnAcceptableMovingDirectionsArr;
+                        acceptableCuttingArr = pawnAcceptableCuttingDirectionsArr;
+                    }
+                    case Rook.SYMBOL -> {
+                        acceptableMovingArr = rookAcceptableDirectionsArr;
+                        acceptableCuttingArr = rookAcceptableDirectionsArr;
+                    }
+                    case Horse.SYMBOL -> {
+                        acceptableMovingArr = horseAcceptableMovementsArr;
+                        acceptableCuttingArr = horseAcceptableMovementsArr;
+                    }
+                    case Bishop.SYMBOL -> {
+                        acceptableMovingArr = bishopAcceptableDirectionsArr;
+                        acceptableCuttingArr = bishopAcceptableDirectionsArr;
+                    }
+                    case Queen.SYMBOL -> {
+                        acceptableMovingArr = queenAcceptableDirectionsArr;
+                        acceptableCuttingArr = queenAcceptableDirectionsArr;
+                    }
+                    case King.SYMBOL -> {
+                        acceptableMovingArr = kingAcceptableDirectionsArr;
+                        acceptableCuttingArr = kingAcceptableDirectionsArr;
+                    }
+                    default -> {
+                    }
+                }
+                // Проверка движения по пустому полю
+                check &= RHBQK_movingTest(acceptableMovingArr, testingPiece, maxDistance);
+                // Проверка перепрыгивания через фигуры
+                check &= (testingPiece.getSymbol().equals(Horse.SYMBOL)) ?
+                        H_jumpOverTest(acceptableMovingArr, testingPiece, maxDistance) :
+                        RBQK_jumpOverTest(acceptableMovingArr, testingPiece, maxDistance);
+                // Проверка рубки фигур
+                check &= RHBQK_cuttingTest(acceptableCuttingArr, testingPiece, maxDistance);
             }
             printResultString("Проверка движения " + printingPieceName, check);
         } catch (Exception e) {
@@ -432,95 +234,21 @@ public class Test {
         }
     }
 
-    public static void rookMovingTest() {
-        try {
-            boolean check = true;
-            int[][] acceptableDirectionsArr = new int[][] {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
-            for (String color : new String[] {WHITE, BLACK}) {
-                ChessPiece testingPiece = new Rook(color);
-
-                // Проверка движения по пустому полю
-                check &= freePathMovingTest(color, acceptableDirectionsArr, testingPiece, 8);
-
-                // Проверка NOT перепрыгивания через другие фигуры
-                check &= jumpOverMovingTest(color, acceptableDirectionsArr, testingPiece, 8);
-            }
-            printResultString("Проверка движения ладьи", check);
-        } catch (Exception e) {
-            printErrorString("Ошибка при проверке движения ладьи!", e);
-        }
-    }
-
-    public static void bishopMovingTest() {
-        try {
-            boolean check = true;
-            int[][] acceptableDirectionsArr = new int[][] {{1, -1}, {1, 1}, {-1, -1}, {-1, 1}};
-            for (String color : new String[] {WHITE, BLACK}) {
-                ChessPiece testingPiece = new Bishop(color);
-
-                // Проверка движения по пустому полю
-                check &= freePathMovingTest(color, acceptableDirectionsArr, testingPiece, 8);
-
-                // Проверка NOT перепрыгивания через другие фигуры
-                check &= jumpOverMovingTest(color, acceptableDirectionsArr, testingPiece, 8);
-            }
-            printResultString("Проверка движения слона", check);
-        } catch (Exception e) {
-            printErrorString("Ошибка при проверке движения слона!", e);
-        }
-    }
-
-    public static void queenMovingTest() {
-        try {
-            boolean check = true;
-            int[][] acceptableDirectionsArr = new int[][] {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
-            for (String color : new String[] {WHITE, BLACK}) {
-                ChessPiece testingPiece = new Queen(color);
-
-                // Проверка движения по пустому полю
-                check &= freePathMovingTest(color, acceptableDirectionsArr, testingPiece, 8);
-
-                // Проверка NOT перепрыгивания через другие фигуры
-                check &= jumpOverMovingTest(color, acceptableDirectionsArr, testingPiece, 8);
-            }
-            printResultString("Проверка движения королевы", check);
-        } catch (Exception e) {
-            printErrorString("Ошибка при проверке движения королевы!", e);
-        }
-    }
-
-    public static void kingMovingTest() {
-        try {
-            boolean check = true;
-            int[][] acceptableDirectionsArr = new int[][] {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
-            for (String color : new String[] {WHITE, BLACK}) {
-                ChessPiece testingPiece = new King(color);
-
-                // Проверка движения по пустому полю
-                check &= freePathMovingTest(color, acceptableDirectionsArr, testingPiece, 1);
-
-                // Проверка NOT перепрыгивания через другие фигуры
-                check &= jumpOverMovingTest(color, acceptableDirectionsArr, testingPiece, 1);
-            }
-            printResultString("Проверка движения короля", check);
-        } catch (Exception e) {
-            printErrorString("Ошибка при проверке движения короля!", e);
-        }
-    }
-
-    private static boolean freePathMovingTest(String color, int[][] acceptableDirectionsArr, ChessPiece piece, int maxIndent) {
+    private static boolean RHBQK_movingTest(int[][] acceptableDirectionsArr, ChessPiece testingPiece, int maxDistance) {
         boolean check = true;
         for (int line = 0; line < 8; line++) {
             for (int column = 0; column < 8; column++) {
-                for (int indent = 1; indent < maxIndent; indent++) {
+                for (int indent = 1; indent <= maxDistance; indent++) {
                     for (int toLine = line - indent; toLine <= line + indent; toLine++) {
+                        int indentB = testingPiece.getSymbol().equals(Horse.SYMBOL) ? 1 : indent;
                         if ((toLine == line - indent) || (toLine == line + indent)) {
                             for (int toColumn = column - indent; toColumn <= column + indent; toColumn++) {
-                                check &= freePathTest(color, acceptableDirectionsArr, line, column, indent, toLine, toColumn, piece);
+                                boolean temp = RHBQK_movingTestB(acceptableDirectionsArr, line, column, indentB, toLine, toColumn, testingPiece);
+                                check &= temp;
                             }
                         } else {
-                            check &= freePathTest(color, acceptableDirectionsArr, line, column, indent, toLine, column - indent, piece);
-                            check &= freePathTest(color, acceptableDirectionsArr, line, column, indent, toLine, column + indent, piece);
+                            check &= RHBQK_movingTestB(acceptableDirectionsArr, line, column, indentB, toLine, column - indent, testingPiece);
+                            check &= RHBQK_movingTestB(acceptableDirectionsArr, line, column, indentB, toLine, column + indent, testingPiece);
                         }
                     }
                 }
@@ -529,11 +257,11 @@ public class Test {
         return check;
     }
 
-    private static boolean freePathTest(String color, int[][] acceptableDirectionsArr, int line, int column, int indent, int toLine, int toColumn,
-                                        ChessPiece piece) {
+    private static boolean RHBQK_movingTestB(int[][] acceptableDirectionsArr, int line, int column, int indent, int toLine, int toColumn,
+                                             ChessPiece testingPiece) {
         ChessBoard cb = new ChessBoard(WHITE);
-        cb.board[line][column] = piece;
-        cb.nowPlayer = color;
+        cb.board[line][column] = testingPiece;
+        cb.nowPlayer = testingPiece.getColor();
         boolean movingResult = cb.moveToPosition(line, column, toLine, toColumn);
         boolean isAcceptable = false;
         for (int[] acceptableDirection : acceptableDirectionsArr) {
@@ -542,18 +270,12 @@ public class Test {
         return (isAcceptable && isOnTheField(toLine, toColumn)) == movingResult;
     }
 
-    private static boolean jumpOverMovingTest(String color, int[][] acceptableDirectionsArr, ChessPiece piece, int maxIndent) {
+    private static boolean RBQK_jumpOverTest(int[][] acceptableDirectionsArr, ChessPiece testingPiece, int maxDistance) {
         boolean check = true;
-        for (ChessPiece interferingPiece : new ChessPiece[]{
-                new Pawn(WHITE), new Pawn(BLACK),
-                new Rook(WHITE), new Rook(BLACK),
-                new Horse(WHITE), new Horse(BLACK),
-                new Bishop(WHITE), new Bishop(BLACK),
-                new Queen(WHITE), new Queen(BLACK),
-                new King(WHITE), new King(BLACK)}) {
+        for (ChessPiece interferingPiece : piecesArr) {
             for (int line = 0; line < 8; line++) {
                 for (int column = 0; column < 8; column++) {
-                    for (int indent = 2; indent < maxIndent; indent++) {
+                    for (int indent = 2; indent <= maxDistance; indent++) {
                         for (int[] acceptableDirection : acceptableDirectionsArr) {
                             for (int interferingIndent = 1; interferingIndent < indent; interferingIndent++) {
                                 int toLine = line + acceptableDirection[0] * indent;
@@ -562,10 +284,62 @@ public class Test {
                                 int interferingPieceColumn = column + acceptableDirection[1] * interferingIndent;
                                 if (isOnTheField(toLine, toColumn)) {
                                     ChessBoard cb = new ChessBoard(WHITE);
-                                    cb.board[line][column] = piece;
+                                    cb.board[line][column] = testingPiece;
                                     cb.board[interferingPieceLine][interferingPieceColumn] = interferingPiece;
-                                    cb.nowPlayer = color;
+                                    cb.nowPlayer = testingPiece.getColor();
                                     check &= !cb.moveToPosition(line, column, toLine, toColumn);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return check;
+    }
+
+    private static boolean H_jumpOverTest(int[][] acceptableMovementsArr, ChessPiece testingPiece, int maxDistance) {
+        boolean check = true;
+        for (ChessPiece piece : piecesArr) {
+            for (int line = 0; line < 8; line++) {
+                for (int column = 0; column < 8; column++) {
+                    for (int[] shift : acceptableMovementsArr) {
+                        ChessBoard cb = new ChessBoard(WHITE);
+                        fieldFilling(cb, piece);
+                        cb.board[line][column] = testingPiece;
+                        int toLine = line + shift[0];
+                        int toColumn = column + shift[1];
+                        if (isOnTheField(toLine, toColumn)) {
+                            cb.board[toLine][toColumn] = null;
+                            cb.nowPlayer = testingPiece.getColor();
+                            check &= cb.moveToPosition(line, column, toLine, toColumn);
+                        }
+                    }
+                }
+            }
+        }
+        return  check;
+    }
+
+    private static boolean RHBQK_cuttingTest(int[][] acceptableDirectionsArr, ChessPiece testingPiece, int maxDistance) {
+        boolean check = true;
+        for (ChessPiece cuttingPiece : piecesArr) {
+            for (int line = 0; line < 8; line++) {
+                for (int column = 0; column < 8; column++) {
+                    for (int indent = 1; indent <= maxDistance; indent++) {
+                        int indentB = testingPiece.getSymbol().equals(Horse.SYMBOL) ? 1 : indent;
+                        for (int[] acceptableDirection : acceptableDirectionsArr) {
+                            int toLine = line + acceptableDirection[0] * indentB;
+                            int toColumn = column + acceptableDirection[1] * indentB;
+                            if (isOnTheField(toLine, toColumn)) {
+                                ChessBoard cb = new ChessBoard(WHITE);
+                                cb.board[line][column] = testingPiece;
+                                cb.board[toLine][toColumn] = cuttingPiece;
+                                cb.nowPlayer = testingPiece.getColor();
+                                if (testingPiece.getColor().equals(cuttingPiece.getColor())) {
+                                    check &= !cb.moveToPosition(line, column, toLine, toColumn);
+                                } else {
+                                    check &= cb.moveToPosition(line, column, toLine, toColumn);
                                 }
                             }
                         }
