@@ -13,7 +13,7 @@ public class Bishop extends ChessPiece {
     @Override
     public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
         if (isOnTheField(toLine, toColumn) &&
-                // Ограничиваем движение только по диагонали
+                // Restrict movement only diagonally
                 Math.abs(line - toLine) == Math.abs(column - toColumn) && Math.abs(line - toLine) > 0) {
             return checkFreePath(cb, line, column, toLine, toColumn) && canMoveOrCut(cb, toLine, toColumn);
         } else {

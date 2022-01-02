@@ -13,11 +13,11 @@ public class King extends ChessPiece {
     @Override
     public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
         if (isOnTheField(toLine, toColumn) &&
-                // Ограничиваем движение только по диагонали на 1 шаг или
+                // Restrict movement only diagonally by 1 step or
                 ((Math.abs(line - toLine) == Math.abs(column - toColumn) && Math.abs(line - toLine) == 1 ||
-                        // только вдоль линии на 1 шаг или
+                        // only along the line by 1 step or
                         (line - toLine) == 0 && Math.abs(column - toColumn) == 1 ||
-                        // только вдоль столбца на 1 шаг
+                        // only along the column by 1 step
                         (column - toColumn) == 0 && Math.abs(line - toLine) == 1))) {
             return checkFreePath(cb, line, column, toLine, toColumn) && canMoveOrCut(cb, toLine, toColumn);
         } else {

@@ -13,9 +13,9 @@ public class Rook extends ChessPiece {
     @Override
     public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
         if (isOnTheField(toLine, toColumn) &&
-                // Ограничиваем движение только вдоль линии или
+                // Restrict movement only along the line or
                 ((line - toLine) == 0 && Math.abs(column - toColumn) > 0 ||
-                        // только вдоль столбца
+                        // only along the column
                         (column - toColumn) == 0 && Math.abs(line - toLine) > 0)) {
             return checkFreePath(cb, line, column, toLine, toColumn) && canMoveOrCut(cb, toLine, toColumn);
         } else {
