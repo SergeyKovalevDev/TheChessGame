@@ -11,6 +11,11 @@ public class Rook extends ChessPiece {
     }
 
     @Override
+    public String getSymbol() {
+        return SYMBOL;
+    }
+
+    @Override
     public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
         if (isOnTheField(toLine, toColumn) &&
                 // Restrict movement only along the line or
@@ -21,10 +26,5 @@ public class Rook extends ChessPiece {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public String getSymbol() {
-        return SYMBOL;
     }
 }

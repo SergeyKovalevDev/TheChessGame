@@ -11,6 +11,11 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
+    public String getSymbol() {
+        return SYMBOL;
+    }
+
+    @Override
     public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
         if (isOnTheField(toLine, toColumn)) {
             if ((column - toColumn) == 0) {
@@ -34,10 +39,5 @@ public class Pawn extends ChessPiece {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public String getSymbol() {
-        return SYMBOL;
     }
 }

@@ -11,6 +11,11 @@ public class Horse extends ChessPiece {
     }
 
     @Override
+    public String getSymbol() {
+        return SYMBOL;
+    }
+
+    @Override
     public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
         if (isOnTheField(toLine, toColumn) &&
                 // Restrict movement only to the angle
@@ -20,10 +25,5 @@ public class Horse extends ChessPiece {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public String getSymbol() {
-        return SYMBOL;
     }
 }

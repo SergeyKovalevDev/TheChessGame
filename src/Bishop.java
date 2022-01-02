@@ -11,6 +11,11 @@ public class Bishop extends ChessPiece {
     }
 
     @Override
+    public String getSymbol() {
+        return SYMBOL;
+    }
+
+    @Override
     public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
         if (isOnTheField(toLine, toColumn) &&
                 // Restrict movement only diagonally
@@ -19,10 +24,5 @@ public class Bishop extends ChessPiece {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public String getSymbol() {
-        return SYMBOL;
     }
 }
