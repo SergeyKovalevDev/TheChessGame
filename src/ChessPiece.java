@@ -19,6 +19,7 @@ public abstract class ChessPiece {
         return line >= 0 && line <= 7 && column >= 0 && column <= 7;
     }
 
+    // This method checks if the path to the end position is free, not including the end position
     public boolean checkFreePath(ChessBoard cb, int line, int column, int toLine, int toColumn) {
         int lineDir = Integer.compare(toLine, line);
         int columnDir = Integer.compare (toColumn, column);
@@ -30,6 +31,7 @@ public abstract class ChessPiece {
         return true;
     }
 
+    // This method checks if the piece can get into the end position
     public boolean canMoveOrCut(ChessBoard cb, int toLine, int toColumn) {
         if (cb.board[toLine][toColumn] != null) {
             return cb.board[toLine][toColumn].getColor().equals(color.equals(WHITE) ? BLACK : WHITE);
