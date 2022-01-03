@@ -51,69 +51,42 @@ public class Test {
         // Проверка хода пешки на один шаг вперед без помехи впереди
         ChessBoard cb = new ChessBoard(WHITE);
         for (int line = 1; line < 7; line++) {
-            for (int column = 0; column < 8; column++) {
-                cb.board[color.equals(WHITE) ? line : 7 - line][column] = new Pawn(color);
-            }
-            for (int column = 0; column < 8; column++) {
-                cb.nowPlayer = color;
-                check &= cb.moveToPosition(color.equals(WHITE) ? line : 7 - line, column,
-                        color.equals(WHITE) ? line + 1 : 6 - line, column);
-            }
+            int aLine = color.equals(WHITE) ? line : 7 - line;
+            int bLine = color.equals(WHITE) ? line + 1 : 6 - line;
+            check = pawnMovingTestA(color, check, cb, aLine, bLine);
         }
 
         // Проверка хода пешки на два шага вперед без помехи впереди
         cb = new ChessBoard(WHITE);
         for (int line = 1; line < 2; line++) {
-            for (int column = 0; column < 8; column++) {
-                cb.board[color.equals(WHITE) ? line : 7 - line][column] = new Pawn(color);
-            }
-            for (int column = 0; column < 8; column++) {
-                cb.nowPlayer = color;
-                check &= cb.moveToPosition(color.equals(WHITE) ? line : 7 - line, column,
-                        color.equals(WHITE) ? line + 2 : 5 - line, column);
-            }
+            int aLine = color.equals(WHITE) ? line : 7 - line;
+            int cLine = color.equals(WHITE) ? line + 2 : 5 - line;
+            check = pawnMovingTestA(color, check, cb, aLine, cLine);
         }
 
         // Проверка NOT хода пешки на один шаг вперед с помехой впереди
         cb = new ChessBoard(WHITE);
         for (int line = 1; line < 7; line++) {
-            for (int column = 0; column < 8; column++) {
-                cb.board[color.equals(WHITE) ? line : 7 - line][column] = new Pawn(color);
-                cb.board[color.equals(WHITE) ? line + 1 : 6 - line][column] = new Pawn(color);
-            }
-            for (int column = 0; column < 8; column++) {
-                cb.nowPlayer = color;
-                check &= !cb.moveToPosition(color.equals(WHITE) ? line : 7 - line, column,
-                        color.equals(WHITE) ? line + 1 : 6 - line, column);
-            }
+            int aLine = color.equals(WHITE) ? line : 7 - line;
+            int bLine = color.equals(WHITE) ? line + 1 : 6 - line;
+            check = pawnMovingTestB(color, check, cb, aLine, bLine);
         }
 
         // Проверка NOT хода пешки на два шага вперед с помехой на один шаг впереди
         cb = new ChessBoard(WHITE);
         for (int line = 1; line < 2; line++) {
-            for (int column = 0; column < 8; column++) {
-                cb.board[color.equals(WHITE) ? line : 7 - line][column] = new Pawn(color);
-                cb.board[color.equals(WHITE) ? line + 1 : 6 - line][column] = new Pawn(color);
-            }
-            for (int column = 0; column < 8; column++) {
-                cb.nowPlayer = color;
-                check &= !cb.moveToPosition(color.equals(WHITE) ? line : 7 - line, column,
-                        color.equals(WHITE) ? line + 2 : 5 - line, column);
-            }
+            int aLine = color.equals(WHITE) ? line : 7 - line;
+            int bLine = color.equals(WHITE) ? line + 1 : 6 - line;
+            int cLine = color.equals(WHITE) ? line + 2 : 5 - line;
+            check = pawnMovingTestC(color, check, cb, aLine, bLine, cLine);
         }
 
         // Проверка NOT хода пешки на два шага вперед с помехой на два шага вперед
         cb = new ChessBoard(WHITE);
         for (int line = 1; line < 2; line++) {
-            for (int column = 0; column < 8; column++) {
-                cb.board[color.equals(WHITE) ? line : 7 - line][column] = new Pawn(color);
-                cb.board[color.equals(WHITE) ? line + 2 : 5 - line][column] = new Pawn(color);
-            }
-            for (int column = 0; column < 8; column++) {
-                cb.nowPlayer = color;
-                check &= !cb.moveToPosition(color.equals(WHITE) ? line : 7 - line, column,
-                        color.equals(WHITE) ? line + 2 : 5 - line, column);
-            }
+            int aLine = color.equals(WHITE) ? line : 7 - line;
+            int cLine = color.equals(WHITE) ? line + 2 : 5 - line;
+            check = pawnMovingTestB(color, check, cb, aLine, cLine);
         }
 
         // Проверка NOT хода пешки на один шаг во всех направлениях кроме вперед и на свое место
@@ -133,8 +106,35 @@ public class Test {
         return check;
     }
 
+    private static boolean pawnMovingTestA(String color, boolean check, ChessBoard cb, int aLine, int bLine) {
+        for (int column = 0; column < 8; column++) {
+            cb.board[aLine][column] = new Pawn(color);
+        }
+        for (int column = 0; column < 8; column++) {
+            cb.nowPlayer = color;
+            check &= cb.moveToPosition(aLine, column, bLine, column);
+        }
+        return check;
+    }
+
+    private static boolean pawnMovingTestB(String color, boolean check, ChessBoard cb, int bLine, int cLine) {
+        check = pawnMovingTestC(color, check, cb, bLine, cLine, cLine);
+        return check;
+    }
+
+    private static boolean pawnMovingTestC(String color, boolean check, ChessBoard cb, int aLine, int bLine, int cLine) {
+        for (int column = 0; column < 8; column++) {
+            cb.board[aLine][column] = new Pawn(color);
+            cb.board[bLine][column] = new Pawn(color);
+        }
+        for (int column = 0; column < 8; column++) {
+            cb.nowPlayer = color;
+            check &= !cb.moveToPosition(aLine, column, cLine, column);
+        }
+        return check;
+    }
+
     private static boolean pawnCuttingTest(String color) {
-        ChessBoard cb;
         boolean check = true;
         // Проверка рубки пешкой фигуры противоположного цвета кроме короля
         String oppositeColor = color.equals(WHITE) ? BLACK : WHITE;
@@ -145,11 +145,11 @@ public class Test {
                         new Horse(oppositeColor),
                         new Bishop(oppositeColor),
                         new Queen(oppositeColor)}) {
-            check &= pawnCuttingTestB(check, color, piece);
+            check &= pawnCuttingTestA(check, color, piece);
         }
 
         // Проверка NOT рубки пешкой короля противоположного цвета
-        check &= !pawnCuttingTestB(check, color, new King(oppositeColor));
+        check &= !pawnCuttingTestA(check, color, new King(oppositeColor));
 
         // Проверка NOT рубки пешкой фигуры своего цвета
         for (ChessPiece piece : new ChessPiece[]{
@@ -159,7 +159,7 @@ public class Test {
                 new Bishop(color),
                 new Queen(color),
                 new King(color)}) {
-            check &= !pawnCuttingTestB(check, color, piece);
+            check &= !pawnCuttingTestA(check, color, piece);
         }
 
         // Проверка NOT рубки пешкой назад
@@ -170,12 +170,12 @@ public class Test {
                         new Horse(oppositeColor),
                         new Bishop(oppositeColor),
                         new Queen(oppositeColor)}) {
-            check &= !pawnCuttingTestC(check, color, piece);
+            check &= !pawnCuttingTestB(check, color, piece);
         }
         return check;
     }
 
-    private static boolean pawnCuttingTestB(boolean check, String color, ChessPiece piece) {
+    private static boolean pawnCuttingTestA(boolean check, String color, ChessPiece piece) {
         ChessBoard cb;
         for (int shift :
                 new int[] {1, -1}) {
@@ -196,7 +196,7 @@ public class Test {
         return check;
     }
 
-    private static boolean pawnCuttingTestC(boolean check, String color, ChessPiece piece) {
+    private static boolean pawnCuttingTestB(boolean check, String color, ChessPiece piece) {
         ChessBoard cb;
         for (int shift :
                 new int[] {1, -1}) {
@@ -228,7 +228,7 @@ public class Test {
                 check &= movingTest(acceptableDirectionsArr, testingPiece, maxDistance);
                 // Проверка перепрыгивания через фигуры
                 check &= (testingPiece.getSymbol().equals(Horse.SYMBOL)) ?
-                        horseJumpOverTest(acceptableDirectionsArr, testingPiece, maxDistance) :
+                        horseJumpOverTest(acceptableDirectionsArr, testingPiece) :
                         jumpOverTest(acceptableDirectionsArr, testingPiece, maxDistance);
                 // Проверка рубки фигур
                 check &= cuttingTest(acceptableDirectionsArr, testingPiece, maxDistance);
@@ -308,7 +308,7 @@ public class Test {
         return check;
     }
 
-    private static boolean horseJumpOverTest(int[][] acceptableMovementsArr, ChessPiece testingPiece, int maxDistance) {
+    private static boolean horseJumpOverTest(int[][] acceptableMovementsArr, ChessPiece testingPiece) {
         boolean check = true;
         for (ChessPiece piece : piecesArr) {
             for (int line = 0; line < 8; line++) {
