@@ -16,13 +16,13 @@ public class Rook extends ChessPiece {
     }
 
     @Override
-    public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
+    public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
         if (isOnTheField(toLine, toColumn) &&
                 // Restrict movement only along the line or
                 ((line - toLine) == 0 && Math.abs(column - toColumn) > 0 ||
                         // only along the column
                         (column - toColumn) == 0 && Math.abs(line - toLine) > 0)) {
-            return checkFreePath(cb, line, column, toLine, toColumn) && canMoveOrCut(cb, toLine, toColumn);
+            return checkFreePath(chessBoard, line, column, toLine, toColumn) && canMoveOrCut(chessBoard, toLine, toColumn);
         } else {
             return false;
         }

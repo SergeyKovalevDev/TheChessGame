@@ -49,44 +49,44 @@ public class Test {
     private static boolean pawnMovingTest(String color) {
         boolean check = true;
         // Проверка хода пешки на один шаг вперед без помехи впереди
-        ChessBoard cb = new ChessBoard(WHITE);
+        ChessBoard chessboard = new ChessBoard(WHITE);
         for (int line = 1; line < 7; line++) {
             int aLine = color.equals(WHITE) ? line : 7 - line;
             int bLine = color.equals(WHITE) ? line + 1 : 6 - line;
-            check = pawnMovingTestA(color, check, cb, aLine, bLine);
+            check = pawnMovingTestA(color, check, chessboard, aLine, bLine);
         }
 
         // Проверка хода пешки на два шага вперед без помехи впереди
-        cb = new ChessBoard(WHITE);
+        chessboard = new ChessBoard(WHITE);
         for (int line = 1; line < 2; line++) {
             int aLine = color.equals(WHITE) ? line : 7 - line;
             int cLine = color.equals(WHITE) ? line + 2 : 5 - line;
-            check = pawnMovingTestA(color, check, cb, aLine, cLine);
+            check = pawnMovingTestA(color, check, chessboard, aLine, cLine);
         }
 
         // Проверка NOT хода пешки на один шаг вперед с помехой впереди
-        cb = new ChessBoard(WHITE);
+        chessboard = new ChessBoard(WHITE);
         for (int line = 1; line < 7; line++) {
             int aLine = color.equals(WHITE) ? line : 7 - line;
             int bLine = color.equals(WHITE) ? line + 1 : 6 - line;
-            check = pawnMovingTestB(color, check, cb, aLine, bLine);
+            check = pawnMovingTestB(color, check, chessboard, aLine, bLine);
         }
 
         // Проверка NOT хода пешки на два шага вперед с помехой на один шаг впереди
-        cb = new ChessBoard(WHITE);
+        chessboard = new ChessBoard(WHITE);
         for (int line = 1; line < 2; line++) {
             int aLine = color.equals(WHITE) ? line : 7 - line;
             int bLine = color.equals(WHITE) ? line + 1 : 6 - line;
             int cLine = color.equals(WHITE) ? line + 2 : 5 - line;
-            check = pawnMovingTestC(color, check, cb, aLine, bLine, cLine);
+            check = pawnMovingTestC(color, check, chessboard, aLine, bLine, cLine);
         }
 
         // Проверка NOT хода пешки на два шага вперед с помехой на два шага вперед
-        cb = new ChessBoard(WHITE);
+        chessboard = new ChessBoard(WHITE);
         for (int line = 1; line < 2; line++) {
             int aLine = color.equals(WHITE) ? line : 7 - line;
             int cLine = color.equals(WHITE) ? line + 2 : 5 - line;
-            check = pawnMovingTestB(color, check, cb, aLine, cLine);
+            check = pawnMovingTestB(color, check, chessboard, aLine, cLine);
         }
 
         // Проверка NOT хода пешки на один шаг во всех направлениях кроме вперед и на свое место
@@ -94,10 +94,10 @@ public class Test {
             for (int[] shift : new int[][]{{-i, -i}, {0, -i}, {i, -i}, {i, i}, {0, i}, {-i, i}, {-i, 0}, {0, 0}}) {
                 for (int line = 0; line < 8; line++) {
                     for (int column = 0; column < 8; column++) {
-                        cb = new ChessBoard(WHITE);
-                        cb.board[line][column] = new Pawn(color);
-                        cb.nowPlayer = color;
-                        check &= !cb.moveToPosition(line, column,
+                        chessboard = new ChessBoard(WHITE);
+                        chessboard.board[line][column] = new Pawn(color);
+                        chessboard.nowPlayer = color;
+                        check &= !chessboard.moveToPosition(line, column,
                                 line + (color.equals(WHITE) ? shift[0] : -shift[0]), column + shift[1]);
                     }
                 }
@@ -106,30 +106,30 @@ public class Test {
         return check;
     }
 
-    private static boolean pawnMovingTestA(String color, boolean check, ChessBoard cb, int aLine, int bLine) {
+    private static boolean pawnMovingTestA(String color, boolean check, ChessBoard chessboard, int aLine, int bLine) {
         for (int column = 0; column < 8; column++) {
-            cb.board[aLine][column] = new Pawn(color);
+            chessboard.board[aLine][column] = new Pawn(color);
         }
         for (int column = 0; column < 8; column++) {
-            cb.nowPlayer = color;
-            check &= cb.moveToPosition(aLine, column, bLine, column);
+            chessboard.nowPlayer = color;
+            check &= chessboard.moveToPosition(aLine, column, bLine, column);
         }
         return check;
     }
 
-    private static boolean pawnMovingTestB(String color, boolean check, ChessBoard cb, int bLine, int cLine) {
-        check = pawnMovingTestC(color, check, cb, bLine, cLine, cLine);
+    private static boolean pawnMovingTestB(String color, boolean check, ChessBoard chessboard, int bLine, int cLine) {
+        check = pawnMovingTestC(color, check, chessboard, bLine, cLine, cLine);
         return check;
     }
 
-    private static boolean pawnMovingTestC(String color, boolean check, ChessBoard cb, int aLine, int bLine, int cLine) {
+    private static boolean pawnMovingTestC(String color, boolean check, ChessBoard chessboard, int aLine, int bLine, int cLine) {
         for (int column = 0; column < 8; column++) {
-            cb.board[aLine][column] = new Pawn(color);
-            cb.board[bLine][column] = new Pawn(color);
+            chessboard.board[aLine][column] = new Pawn(color);
+            chessboard.board[bLine][column] = new Pawn(color);
         }
         for (int column = 0; column < 8; column++) {
-            cb.nowPlayer = color;
-            check &= !cb.moveToPosition(aLine, column, cLine, column);
+            chessboard.nowPlayer = color;
+            check &= !chessboard.moveToPosition(aLine, column, cLine, column);
         }
         return check;
     }
@@ -176,19 +176,19 @@ public class Test {
     }
 
     private static boolean pawnCuttingTestA(boolean check, String color, ChessPiece piece) {
-        ChessBoard cb;
+        ChessBoard chessboard;
         for (int shift :
                 new int[] {1, -1}) {
             for (int line = 1; line < 7; line++) {
                 for (int column = 0; column < 8; column++) {
-                    cb = new ChessBoard(WHITE);
-                    cb.board[line][column] = new Pawn(color);
+                    chessboard = new ChessBoard(WHITE);
+                    chessboard.board[line][column] = new Pawn(color);
                     int toLine = line + (color.equals(WHITE) ? 1 : -1);
                     int toColumn = column + shift;
                     if (toColumn <= 7 && toColumn >= 0) {
-                        cb.board[toLine][toColumn] = piece;
-                        cb.nowPlayer = color;
-                        check &= cb.moveToPosition(line, column, toLine, toColumn);
+                        chessboard.board[toLine][toColumn] = piece;
+                        chessboard.nowPlayer = color;
+                        check &= chessboard.moveToPosition(line, column, toLine, toColumn);
                     }
                 }
             }
@@ -197,19 +197,19 @@ public class Test {
     }
 
     private static boolean pawnCuttingTestB(boolean check, String color, ChessPiece piece) {
-        ChessBoard cb;
+        ChessBoard chessboard;
         for (int shift :
                 new int[] {1, -1}) {
             for (int line = 1; line < 7; line++) {
                 for (int column = 0; column < 8; column++) {
-                    cb = new ChessBoard(WHITE);
-                    cb.board[line][column] = new Pawn(color);
+                    chessboard = new ChessBoard(WHITE);
+                    chessboard.board[line][column] = new Pawn(color);
                     int toLine = line + (color.equals(WHITE) ? -1 : 1);
                     int toColumn = column + shift;
                     if (toColumn <= 7 && toColumn >= 0) {
-                        cb.board[toLine][toColumn] = piece;
-                        cb.nowPlayer = color;
-                        check &= cb.moveToPosition(line, column, toLine, toColumn);
+                        chessboard.board[toLine][toColumn] = piece;
+                        chessboard.nowPlayer = color;
+                        check &= chessboard.moveToPosition(line, column, toLine, toColumn);
                     }
                 }
             }
@@ -263,10 +263,10 @@ public class Test {
 
     private static boolean movingTestB(int[][] acceptableDirectionsArr, int line, int column, int indent, int toLine, int toColumn,
                                        ChessPiece testingPiece) {
-        ChessBoard cb = new ChessBoard(WHITE);
-        cb.board[line][column] = testingPiece;
-        cb.nowPlayer = testingPiece.getColor();
-        boolean movingResult = cb.moveToPosition(line, column, toLine, toColumn);
+        ChessBoard chessboard = new ChessBoard(WHITE);
+        chessboard.board[line][column] = testingPiece;
+        chessboard.nowPlayer = testingPiece.getColor();
+        boolean movingResult = chessboard.moveToPosition(line, column, toLine, toColumn);
         boolean isAcceptable = false;
         for (int[] acceptableDirection : acceptableDirectionsArr) {
             isAcceptable |= (toLine == (line + acceptableDirection[0] * indent) && toColumn == (column + acceptableDirection[1] * indent));
@@ -293,11 +293,11 @@ public class Test {
                                 int interferingPieceLine = line + acceptableDirection[0] * interferingIndent;
                                 int interferingPieceColumn = column + acceptableDirection[1] * interferingIndent;
                                 if (isOnTheField(toLine, toColumn)) {
-                                    ChessBoard cb = new ChessBoard(WHITE);
-                                    cb.board[line][column] = testingPiece;
-                                    cb.board[interferingPieceLine][interferingPieceColumn] = interferingPiece;
-                                    cb.nowPlayer = testingPiece.getColor();
-                                    check &= !cb.moveToPosition(line, column, toLine, toColumn);
+                                    ChessBoard chessboard = new ChessBoard(WHITE);
+                                    chessboard.board[line][column] = testingPiece;
+                                    chessboard.board[interferingPieceLine][interferingPieceColumn] = interferingPiece;
+                                    chessboard.nowPlayer = testingPiece.getColor();
+                                    check &= !chessboard.moveToPosition(line, column, toLine, toColumn);
                                 }
                             }
                         }
@@ -314,15 +314,15 @@ public class Test {
             for (int line = 0; line < 8; line++) {
                 for (int column = 0; column < 8; column++) {
                     for (int[] shift : acceptableMovementsArr) {
-                        ChessBoard cb = new ChessBoard(WHITE);
-                        fieldFilling(cb, piece);
-                        cb.board[line][column] = testingPiece;
+                        ChessBoard chessboard = new ChessBoard(WHITE);
+                        fieldFilling(chessboard, piece);
+                        chessboard.board[line][column] = testingPiece;
                         int toLine = line + shift[0];
                         int toColumn = column + shift[1];
                         if (isOnTheField(toLine, toColumn)) {
-                            cb.board[toLine][toColumn] = null;
-                            cb.nowPlayer = testingPiece.getColor();
-                            check &= cb.moveToPosition(line, column, toLine, toColumn);
+                            chessboard.board[toLine][toColumn] = null;
+                            chessboard.nowPlayer = testingPiece.getColor();
+                            check &= chessboard.moveToPosition(line, column, toLine, toColumn);
                         }
                     }
                 }
@@ -342,14 +342,14 @@ public class Test {
                             int toLine = line + acceptableDirection[0] * indentB;
                             int toColumn = column + acceptableDirection[1] * indentB;
                             if (isOnTheField(toLine, toColumn)) {
-                                ChessBoard cb = new ChessBoard(WHITE);
-                                cb.board[line][column] = testingPiece;
-                                cb.board[toLine][toColumn] = cuttingPiece;
-                                cb.nowPlayer = testingPiece.getColor();
+                                ChessBoard chessboard = new ChessBoard(WHITE);
+                                chessboard.board[line][column] = testingPiece;
+                                chessboard.board[toLine][toColumn] = cuttingPiece;
+                                chessboard.nowPlayer = testingPiece.getColor();
                                 if (testingPiece.getColor().equals(cuttingPiece.getColor())) {
-                                    check &= !cb.moveToPosition(line, column, toLine, toColumn);
+                                    check &= !chessboard.moveToPosition(line, column, toLine, toColumn);
                                 } else {
-                                    check &= cb.moveToPosition(line, column, toLine, toColumn);
+                                    check &= chessboard.moveToPosition(line, column, toLine, toColumn);
                                 }
                             }
                         }
@@ -360,10 +360,10 @@ public class Test {
         return check;
     }
 
-    private static void fieldFilling(ChessBoard cb, ChessPiece piece) {
+    private static void fieldFilling(ChessBoard chessboard, ChessPiece piece) {
         for (int line = 0; line < 8; line++) {
             for (int column = 0; column < 8; column++) {
-                cb.board[line][column] = piece;
+                chessboard.board[line][column] = piece;
             }
         }
     }

@@ -16,7 +16,7 @@ public class King extends ChessPiece {
     }
 
     @Override
-    public boolean canMoveToPosition(ChessBoard cb, int line, int column, int toLine, int toColumn) {
+    public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
         if (isOnTheField(toLine, toColumn) &&
                 // Restrict movement only diagonally by 1 step or
                 ((Math.abs(line - toLine) == Math.abs(column - toColumn) && Math.abs(line - toLine) == 1 ||
@@ -24,67 +24,66 @@ public class King extends ChessPiece {
                         (line - toLine) == 0 && Math.abs(column - toColumn) == 1 ||
                         // only along the column by 1 step
                         (column - toColumn) == 0 && Math.abs(line - toLine) == 1))) {
-            return checkFreePath(cb, line, column, toLine, toColumn) && canMoveOrCut(cb, toLine, toColumn);
+            return checkFreePath(chessBoard, line, column, toLine, toColumn) && canMoveOrCut(chessBoard, toLine, toColumn);
         } else {
             return false;
         }
     }
 
-    public boolean isUnderAttack(ChessBoard cb, int line, int column) {
-        return isUnderAttackByHorse(cb, line, column) || isUnderDiagonalOrVerticalAttack(cb, line, column);
+    public boolean isUnderAttack(ChessBoard chessBoard, int line, int column) {
+        return isUnderAttackByHorse(chessBoard, line, column) || isUnderDiagonalOrVerticalAttack(chessBoard, line, column);
     }
 
-    private boolean isUnderAttackByHorse(ChessBoard cb, int line, int column) {
+    private boolean isUnderAttackByHorse(ChessBoard chessBoard, int line, int column) {
         if (line == 0 && column == 2) {
             int[][] beingCheckedArray = new int[][] {{1, 0}, {2, 1}, {2, 3}, {1, 4}};
-            return isUnderAttackFormArray(cb, beingCheckedArray, Horse.SYMBOL);
+            return isUnderAttackFormArray(chessBoard, beingCheckedArray, Horse.SYMBOL);
         } else if (line == 0 && column == 6) {
             int[][] beingCheckedArray = new int[][] {{1, 4}, {2, 5}, {2, 7}};
-            return isUnderAttackFormArray(cb, beingCheckedArray, Horse.SYMBOL);
+            return isUnderAttackFormArray(chessBoard, beingCheckedArray, Horse.SYMBOL);
         } else if (line == 7 && column == 2) {
             int[][] beingCheckedArray = new int[][] {{6, 0}, {5, 1}, {5, 3}, {6, 4}};
-            return isUnderAttackFormArray(cb, beingCheckedArray, Horse.SYMBOL);
+            return isUnderAttackFormArray(chessBoard, beingCheckedArray, Horse.SYMBOL);
         } else if (line == 7 && column == 6) {
             int[][] beingCheckedArray = new int[][] {{6, 4}, {5, 5}, {5, 7}};
-            return isUnderAttackFormArray(cb, beingCheckedArray, Horse.SYMBOL);
+            return isUnderAttackFormArray(chessBoard, beingCheckedArray, Horse.SYMBOL);
         } else {
             return true;
         }
     }
 
-    private boolean isUnderDiagonalOrVerticalAttack(ChessBoard cb, int line, int column) {
+    private boolean isUnderDiagonalOrVerticalAttack(ChessBoard chessBoard, int line, int column) {
         for (int i = 1; i < 8 ; i++) {
             int beingCheckedLine = line + (line == 0 ? i : -i);
             int[][] checkingArray = new int[][]
                     {{beingCheckedLine, column - i},
                             {beingCheckedLine, column},
                             {beingCheckedLine, column + i}};
-            if (isUnderAttackFormArray(cb, checkingArray, Bishop.SYMBOL) ||
-                    isUnderAttackFormArray(cb, checkingArray, Queen.SYMBOL) ||
-                    (isUnderAttackFormArray(cb, checkingArray, King.SYMBOL)&&
-                            (beingCheckedLine == 1 || beingCheckedLine == 6))) {
+            if (isUnderAttackFormArray(chessBoard, checkingArray, Bishop.SYMBOL) ||
+                    isUnderAttackFormArray(chessBoard, checkingArray, Queen.SYMBOL) ||
+                    (isUnderAttackFormArray(chessBoard, checkingArray, King.SYMBOL)&& (beingCheckedLine == 1 || beingCheckedLine == 6))) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean isUnderAttackFormArray(ChessBoard cb, int[][] beingCheckedArray, String pieceSymbol) {
+    private boolean isUnderAttackFormArray(ChessBoard chessBoard, int[][] beingCheckedArray, String pieceSymbol) {
         boolean retVal = false;
         for (int[] beingCheckedPos :
                 beingCheckedArray) {
             int beingCheckedLine = beingCheckedPos[0];
             int beingCheckedColumn = beingCheckedPos[1];
-            retVal |= isUnderAttackFormPosition(cb, beingCheckedLine, beingCheckedColumn, pieceSymbol);
+            retVal |= isUnderAttackFormPosition(chessBoard, beingCheckedLine, beingCheckedColumn, pieceSymbol);
         }
         return retVal;
     }
 
-    private boolean isUnderAttackFormPosition(ChessBoard cb, int beingCheckedLine, int beingCheckedColumn, String pieceSymbol) {
+    private boolean isUnderAttackFormPosition(ChessBoard chessBoard, int beingCheckedLine, int beingCheckedColumn, String pieceSymbol) {
         if (isOnTheField(beingCheckedLine, beingCheckedColumn)) {
-            if (cb.board[beingCheckedLine][beingCheckedColumn] != null) {
-                if (cb.board[beingCheckedLine][beingCheckedColumn].getColor().equals(color.equals(WHITE) ? BLACK : WHITE)) {
-                    return cb.board[beingCheckedLine][beingCheckedColumn].getSymbol().equals(pieceSymbol);
+            if (chessBoard.board[beingCheckedLine][beingCheckedColumn] != null) {
+                if (chessBoard.board[beingCheckedLine][beingCheckedColumn].getColor().equals(color.equals(WHITE) ? BLACK : WHITE)) {
+                    return chessBoard.board[beingCheckedLine][beingCheckedColumn].getSymbol().equals(pieceSymbol);
                 } else {
                     return false;
                 }
