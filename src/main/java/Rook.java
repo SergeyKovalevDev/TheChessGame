@@ -1,4 +1,4 @@
-public class Rook extends ChessPiece {
+public class Rook extends ChessPiece implements CheckPositionInterface {
     public static final String SYMBOL = "R";
 
     public Rook(String color) {
@@ -17,7 +17,7 @@ public class Rook extends ChessPiece {
 
     @Override
     public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
-        if (isOnTheField(toLine, toColumn) &&
+        if (checkPos(toLine) && checkPos(toColumn) &&
                 // Restrict movement only along the line or
                 ((line - toLine) == 0 && Math.abs(column - toColumn) > 0 ||
                         // only along the column

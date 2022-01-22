@@ -1,4 +1,4 @@
-public class ChessBoard {
+public class ChessBoard implements CheckPositionInterface {
     public ChessPiece[][] board = new ChessPiece[8][8]; // creating a field for game
     String nowPlayer;
 
@@ -43,10 +43,6 @@ public class ChessBoard {
             System.out.println();
         }
         System.out.println("Player 1(White)");
-    }
-
-    public boolean checkPos(int pos) {
-        return pos >= 0 && pos <= 7;
     }
 
     public boolean castling0() {

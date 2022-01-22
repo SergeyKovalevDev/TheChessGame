@@ -1,4 +1,4 @@
-public class King extends ChessPiece {
+public class King extends ChessPiece implements CheckPositionInterface {
     public static final String SYMBOL = "K";
 
     public King(String color) {
@@ -17,7 +17,7 @@ public class King extends ChessPiece {
 
     @Override
     public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
-        if (isOnTheField(toLine, toColumn) &&
+        if (checkPos(toLine) && checkPos(toColumn) &&
                 // Restrict movement only diagonally by 1 step or
                 ((Math.abs(line - toLine) == Math.abs(column - toColumn) && Math.abs(line - toLine) == 1 ||
                         // only along the line by 1 step or
@@ -80,7 +80,7 @@ public class King extends ChessPiece {
     }
 
     private boolean isUnderAttackFormPosition(ChessBoard chessBoard, int beingCheckedLine, int beingCheckedColumn, String pieceSymbol) {
-        if (isOnTheField(beingCheckedLine, beingCheckedColumn)) {
+        if (checkPos(beingCheckedLine) && checkPos(beingCheckedColumn)) {
             if (chessBoard.board[beingCheckedLine][beingCheckedColumn] != null) {
                 if (chessBoard.board[beingCheckedLine][beingCheckedColumn].getColor().equals(color.equals(WHITE) ? BLACK : WHITE)) {
                     return chessBoard.board[beingCheckedLine][beingCheckedColumn].getSymbol().equals(pieceSymbol);
