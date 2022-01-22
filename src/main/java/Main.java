@@ -2,46 +2,11 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static ChessBoard buildBoard() {
-        ChessBoard board = new ChessBoard(ChessPiece.WHITE);
-
-        board.board[0][0] = new Rook(ChessPiece.WHITE);
-        board.board[0][1] = new Horse(ChessPiece.WHITE);
-        board.board[0][2] = new Bishop(ChessPiece.WHITE);
-        board.board[0][3] = new Queen(ChessPiece.WHITE);
-        board.board[0][4] = new King(ChessPiece.WHITE);
-        board.board[0][5] = new Bishop(ChessPiece.WHITE);
-        board.board[0][6] = new Horse(ChessPiece.WHITE);
-        board.board[0][7] = new Rook(ChessPiece.WHITE);
-        board.board[1][0] = new Pawn(ChessPiece.WHITE);
-        board.board[1][1] = new Pawn(ChessPiece.WHITE);
-        board.board[1][2] = new Pawn(ChessPiece.WHITE);
-        board.board[1][3] = new Pawn(ChessPiece.WHITE);
-        board.board[1][4] = new Pawn(ChessPiece.WHITE);
-        board.board[1][5] = new Pawn(ChessPiece.WHITE);
-        board.board[1][6] = new Pawn(ChessPiece.WHITE);
-        board.board[1][7] = new Pawn(ChessPiece.WHITE);
-
-        board.board[7][0] = new Rook(ChessPiece.BLACK);
-        board.board[7][1] = new Horse(ChessPiece.BLACK);
-        board.board[7][2] = new Bishop(ChessPiece.BLACK);
-        board.board[7][3] = new Queen(ChessPiece.BLACK);
-        board.board[7][4] = new King(ChessPiece.BLACK);
-        board.board[7][5] = new Bishop(ChessPiece.BLACK);
-        board.board[7][6] = new Horse(ChessPiece.BLACK);
-        board.board[7][7] = new Rook(ChessPiece.BLACK);
-        board.board[6][0] = new Pawn(ChessPiece.BLACK);
-        board.board[6][1] = new Pawn(ChessPiece.BLACK);
-        board.board[6][2] = new Pawn(ChessPiece.BLACK);
-        board.board[6][3] = new Pawn(ChessPiece.BLACK);
-        board.board[6][4] = new Pawn(ChessPiece.BLACK);
-        board.board[6][5] = new Pawn(ChessPiece.BLACK);
-        board.board[6][6] = new Pawn(ChessPiece.BLACK);
-        board.board[6][7] = new Pawn(ChessPiece.BLACK);
-        return board;
+    public static void main(String[] args) {
+        gameStarter();
     }
 
-    public static void main(String[] args) {
+    private static void gameStarter() {
         ChessBoard board = buildBoard();
         Scanner scanner = new Scanner(System.in);
         System.out.println("""
@@ -92,5 +57,44 @@ public class Main {
                 }
             }
         }
+    }
+
+    public static ChessBoard buildBoard() {
+        ChessBoard board = new ChessBoard(ChessPiece.WHITE);
+
+        board.board[0][0] = new Rook(ChessPiece.WHITE);
+        board.board[0][1] = new Horse(ChessPiece.WHITE);
+        board.board[0][2] = new Bishop(ChessPiece.WHITE);
+        board.board[0][3] = new Queen(ChessPiece.WHITE);
+        board.board[0][4] = new King(ChessPiece.WHITE);
+        board.board[0][5] = new Bishop(ChessPiece.WHITE);
+        board.board[0][6] = new Horse(ChessPiece.WHITE);
+        board.board[0][7] = new Rook(ChessPiece.WHITE);
+        board.board[1][0] = new Pawn(ChessPiece.WHITE);
+        board.board[1][1] = new Pawn(ChessPiece.WHITE);
+        board.board[1][2] = new Pawn(ChessPiece.WHITE);
+        board.board[1][3] = new Pawn(ChessPiece.WHITE);
+        board.board[1][4] = new Pawn(ChessPiece.WHITE);
+        board.board[1][5] = new Pawn(ChessPiece.WHITE);
+        board.board[1][6] = new Pawn(ChessPiece.WHITE);
+        board.board[1][7] = new Pawn(ChessPiece.WHITE);
+
+        board.board[7][0] = new Rook(ChessPiece.BLACK);
+        board.board[7][1] = new Horse(ChessPiece.BLACK);
+        board.board[7][2] = new Bishop(ChessPiece.BLACK);
+        board.board[7][3] = new Queen(ChessPiece.BLACK);
+        board.board[7][4] = new King(ChessPiece.BLACK);
+        board.board[7][5] = new Bishop(ChessPiece.BLACK);
+        board.board[7][6] = new Horse(ChessPiece.BLACK);
+        board.board[7][7] = new Rook(ChessPiece.BLACK);
+        board.board[6][0] = new Pawn(ChessPiece.BLACK);
+        board.board[6][1] = new Pawn(ChessPiece.BLACK);
+        board.board[6][2] = new Pawn(ChessPiece.BLACK);
+        board.board[6][3] = new Pawn(ChessPiece.BLACK);
+        board.board[6][4] = new Pawn(ChessPiece.BLACK);
+        board.board[6][5] = new Pawn(ChessPiece.BLACK);
+        board.board[6][6] = new Pawn(ChessPiece.BLACK);
+        board.board[6][7] = new Pawn(ChessPiece.BLACK);
+        return board;
     }
 }
