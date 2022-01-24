@@ -1,4 +1,4 @@
-public class Bishop extends ChessPiece {
+public class Bishop extends ChessPiece implements CheckPositionInterface {
     public static final String SYMBOL = "B";
 
     public Bishop(String color) {
@@ -17,7 +17,7 @@ public class Bishop extends ChessPiece {
 
     @Override
     public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
-        if (isOnTheField(toLine, toColumn) &&
+        if (checkPos(toLine) && checkPos(toColumn) &&
                 // Restrict movement only diagonally
                 Math.abs(line - toLine) == Math.abs(column - toColumn) && Math.abs(line - toLine) > 0) {
             return checkFreePath(chessBoard, line, column, toLine, toColumn) && canMoveOrCut(chessBoard, toLine, toColumn);

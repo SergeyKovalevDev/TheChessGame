@@ -1,4 +1,4 @@
-public class Pawn extends ChessPiece {
+public class Pawn extends ChessPiece implements CheckPositionInterface {
     public static final String SYMBOL = "P";
 
     public Pawn(String color) {
@@ -17,7 +17,7 @@ public class Pawn extends ChessPiece {
 
     @Override
     public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
-        if (isOnTheField(toLine, toColumn)) {
+        if (checkPos(toLine) && checkPos(toColumn)) {
             if ((column - toColumn) == 0) {
                 if ((toLine - line) == (color.equals(WHITE) ? 1 : -1) && ((color.equals(WHITE) ? line > 0 : line < 7))) {
                     return chessBoard.board[toLine][toColumn] == null;

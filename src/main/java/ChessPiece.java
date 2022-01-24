@@ -15,10 +15,6 @@ public abstract class ChessPiece {
 
     public abstract String getSymbol();
 
-    public boolean isOnTheField(int line, int column) {
-        return line >= 0 && line <= 7 && column >= 0 && column <= 7;
-    }
-
     // This method checks if the path to the end position is free, not including the end position
     public boolean checkFreePath(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
         int lineDir = Integer.compare(toLine, line);
