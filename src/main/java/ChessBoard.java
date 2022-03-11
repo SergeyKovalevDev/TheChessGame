@@ -46,7 +46,7 @@ public class ChessBoard implements CheckPositionInterface {
     }
 
     public boolean castling0() {
-        if (nowPlayer.equals(ChessPiece.BLACK)) {
+        if (nowPlayer.equals(ChessPiece.WHITE)) {
             if (board[0][0] == null || board[0][4] == null) return false;
             if (board[0][0].getSymbol().equals(Rook.SYMBOL) && board[0][4].getSymbol().equals(King.SYMBOL) && // check that King and Rook
                     board[0][1] == null && board[0][2] == null && board[0][3] == null) {              // never moved
